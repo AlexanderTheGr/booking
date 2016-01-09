@@ -1,0 +1,23 @@
+softone:
+    resource: "@SoftoneBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+
+edi:
+    resource: "@EdiBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+access:
+    resource: "@AccessBundle/Resources/config/routing.yml"
+    prefix:   /
+
+attribute:
+    resource: "@EavBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+app:
+    resource: "@SoftoneBundle/Controller/"
+    type:     annotation

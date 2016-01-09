@@ -1,0 +1,19 @@
+{% block body %}  
+<div ng-app="{{app}}" ng-controller="{{ctrl}}"> 
+    <button class="btn btn-success btn_new btn_new_{{ctrl}}">Add New</button>   
+    <table class="alexander table table-striped dataTable {{ctrl}}">
+        <thead>
+            <tr>
+                <td  ng-repeat="field in fields" ng-bind-html="deliberatelyTrustDangerousSnippet(field.content)">
+                    [[ field.content ]]
+                </td>
+            </tr> 
+            <tr>
+                <td ng-repeat="field in fields">[[ field.name ]]</td>
+            </tr>                
+        </thead> 
+        <tbody>
+        </tbody>
+    </table>
+</div>
+{% endblock %}
