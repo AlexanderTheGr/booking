@@ -1,23 +1,8 @@
-softone:
-    resource: "@SoftoneBundle/Controller/"
-    type:     annotation
-    prefix:   /
-
-
-edi:
-    resource: "@EdiBundle/Controller/"
-    type:     annotation
-    prefix:   /
-
-access:
-    resource: "@AccessBundle/Resources/config/routing.yml"
-    prefix:   /
-
-attribute:
-    resource: "@EavBundle/Controller/"
+booking:
+    resource: "@BookingBundle/Controller/"
     type:     annotation
     prefix:   /
 
 app:
-    resource: "@SoftoneBundle/Controller/"
+    resource: "@AppBundle/Controller/"
     type:     annotation
