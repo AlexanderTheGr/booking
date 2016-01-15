@@ -5,8 +5,17 @@ namespace BookingBundle\Entity;
 /**
  * Scheduler
  */
-class Scheduler
-{
+class Scheduler {
+
+    public function getField($field) {
+        return $this->$field;
+    }
+
+    public function setField($field, $val) {
+        $this->$field = $val;
+        return $val;
+    }
+
     /**
      * @var string
      */
@@ -47,7 +56,6 @@ class Scheduler
      */
     private $category;
 
-
     /**
      * Set description
      *
@@ -55,8 +63,7 @@ class Scheduler
      *
      * @return Scheduler
      */
-    public function setDescription($description)
-    {
+    public function setDescription($description) {
         $this->description = $description;
 
         return $this;
@@ -67,8 +74,7 @@ class Scheduler
      *
      * @return string
      */
-    public function getDescription()
-    {
+    public function getDescription() {
         return $this->description;
     }
 
@@ -79,8 +85,7 @@ class Scheduler
      *
      * @return Scheduler
      */
-    public function setStatus($status)
-    {
+    public function setStatus($status) {
         $this->status = $status;
 
         return $this;
@@ -91,8 +96,7 @@ class Scheduler
      *
      * @return integer
      */
-    public function getStatus()
-    {
+    public function getStatus() {
         return $this->status;
     }
 
@@ -103,8 +107,7 @@ class Scheduler
      *
      * @return Scheduler
      */
-    public function setTs($ts)
-    {
+    public function setTs($ts) {
         $this->ts = $ts;
 
         return $this;
@@ -115,8 +118,7 @@ class Scheduler
      *
      * @return \DateTime
      */
-    public function getTs()
-    {
+    public function getTs() {
         return $this->ts;
     }
 
@@ -127,8 +129,7 @@ class Scheduler
      *
      * @return Scheduler
      */
-    public function setCreated($created)
-    {
+    public function setCreated($created) {
         $this->created = $created;
 
         return $this;
@@ -139,8 +140,7 @@ class Scheduler
      *
      * @return \DateTime
      */
-    public function getCreated()
-    {
+    public function getCreated() {
         return $this->created;
     }
 
@@ -151,8 +151,7 @@ class Scheduler
      *
      * @return Scheduler
      */
-    public function setModified($modified)
-    {
+    public function setModified($modified) {
         $this->modified = $modified;
 
         return $this;
@@ -163,8 +162,7 @@ class Scheduler
      *
      * @return \DateTime
      */
-    public function getModified()
-    {
+    public function getModified() {
         return $this->modified;
     }
 
@@ -173,8 +171,7 @@ class Scheduler
      *
      * @return integer
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -185,8 +182,7 @@ class Scheduler
      *
      * @return Scheduler
      */
-    public function setActioneer(\AppBundle\Entity\User $actioneer = null)
-    {
+    public function setActioneer(\AppBundle\Entity\User $actioneer = null) {
         $this->actioneer = $actioneer;
 
         return $this;
@@ -197,8 +193,7 @@ class Scheduler
      *
      * @return \AppBundle\Entity\User
      */
-    public function getActioneer()
-    {
+    public function getActioneer() {
         return $this->actioneer;
     }
 
@@ -209,8 +204,7 @@ class Scheduler
      *
      * @return Scheduler
      */
-    public function setCategory(\BookingBundle\Entity\Room $category = null)
-    {
+    public function setCategory(\BookingBundle\Entity\Room $category = null) {
         $this->category = $category;
 
         return $this;
@@ -221,10 +215,10 @@ class Scheduler
      *
      * @return \BookingBundle\Entity\Room
      */
-    public function getCategory()
-    {
+    public function getCategory() {
         return $this->category;
     }
+
     /**
      * @var \DateTime
      */
@@ -240,7 +234,6 @@ class Scheduler
      */
     private $room;
 
-
     /**
      * Set start
      *
@@ -248,8 +241,7 @@ class Scheduler
      *
      * @return Scheduler
      */
-    public function setStart($start)
-    {
+    public function setStart($start) {
         $this->start = $start;
 
         return $this;
@@ -260,8 +252,7 @@ class Scheduler
      *
      * @return \DateTime
      */
-    public function getStart()
-    {
+    public function getStart() {
         return $this->start;
     }
 
@@ -272,8 +263,7 @@ class Scheduler
      *
      * @return Scheduler
      */
-    public function setEnd($end)
-    {
+    public function setEnd($end) {
         $this->end = $end;
 
         return $this;
@@ -284,8 +274,7 @@ class Scheduler
      *
      * @return \DateTime
      */
-    public function getEnd()
-    {
+    public function getEnd() {
         return $this->end;
     }
 
@@ -296,8 +285,7 @@ class Scheduler
      *
      * @return Scheduler
      */
-    public function setRoom(\BookingBundle\Entity\Room $room = null)
-    {
+    public function setRoom(\BookingBundle\Entity\Room $room = null) {
         $this->room = $room;
 
         return $this;
@@ -308,15 +296,14 @@ class Scheduler
      *
      * @return \BookingBundle\Entity\Room
      */
-    public function getRoom()
-    {
+    public function getRoom() {
         return $this->room;
     }
+
     /**
      * @var \BookingBundle\Entity\Customer
      */
     private $customer;
-
 
     /**
      * Set customer
@@ -325,8 +312,7 @@ class Scheduler
      *
      * @return Scheduler
      */
-    public function setCustomer(\BookingBundle\Entity\Customer $customer = null)
-    {
+    public function setCustomer(\BookingBundle\Entity\Customer $customer = null) {
         $this->customer = $customer;
 
         return $this;
@@ -337,8 +323,8 @@ class Scheduler
      *
      * @return \BookingBundle\Entity\Customer
      */
-    public function getCustomer()
-    {
+    public function getCustomer() {
         return $this->customer;
     }
+
 }

@@ -17,11 +17,14 @@
         <link type="text/css" rel="stylesheet" href="{{ asset('assets/css/theme-4/material-design-iconic-font.min.css') }}" />
         <link type="text/css" rel="stylesheet" href="{{ asset('assets/css/theme-4/libs/DataTables/jquery.dataTables.css') }}">
         <link type="text/css" rel="stylesheet" href="{{ asset('assets/css/theme-4/libs/toastr/toastr.css') }}">
+        <link type="text/css" rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
+        <link type="text/css" rel="stylesheet" href="{{ asset('assets/css/theme-4/libs/jquery-ui/jquery-ui-theme.css') }}">
         
         <link type="text/css" rel="stylesheet" href="{{ asset('assets/css/theme-4/libs/fullcalendar/fullcalendar.css') }}">
+       
         <link type="text/css" rel="stylesheet" href="{{ asset('assets/css/theme-4/libs/fullcalendar/scheduler.min.css') }}">
         
-        <link type="text/css" rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
+        
 
 
     {% block stylesheets %}{% endblock %}
@@ -155,12 +158,15 @@
                         <span class="title">Χρήστες</span>
                     </a>
                 </li>   
+                
                 <li>
                     <a href="/product/product" class="">
                         <div class="gui-icon"><i class="fa fa-gear"></i></div>
                         <span class="title">Είδη</span>
                     </a>
-                </li>                          
+                </li>  
+                
+                
                 <li>
                     <a href="/supplier/supplier" class="">
                         <div class="gui-icon"><i class="md md-computer"></i></div>
@@ -279,6 +285,7 @@
 {% javascripts
             'assets/js/libs/jquery/jquery-1.11.2.min.js'
             'assets/js/libs/jquery/jquery-migrate-1.2.1.min.js' 
+            'assets/js/libs/jquery-ui/jquery-ui.min.js' 
             'assets/js/libs/bootstrap/bootstrap.min.js'
             'assets/js/libs/spin.js/spin.min.js'
             'assets/js/core/source/*'
@@ -302,6 +309,8 @@
             'assets/js/libs/angular/angular-messages.js' 
             'assets/js/libs/angular/angular-formly-templates-bootstrap.js' 
             'assets/js/libs/angular/angular-base64.js' 
+
+            'assets/js/libs/alexander/*' 
 
 
 %}

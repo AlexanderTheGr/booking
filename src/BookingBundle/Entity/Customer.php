@@ -5,8 +5,15 @@ namespace BookingBundle\Entity;
 /**
  * Customer
  */
-class Customer
-{
+class Customer {
+    public function getField($field) {
+        return $this->$field;
+    }
+
+    public function setField($field, $val) {
+        $this->$field = $val;
+        return $val;
+    }
     /**
      * @var integer
      */
@@ -122,7 +129,6 @@ class Customer
      */
     private $actioneer;
 
-
     /**
      * Set reference
      *
@@ -130,8 +136,7 @@ class Customer
      *
      * @return Customer
      */
-    public function setReference($reference)
-    {
+    public function setReference($reference) {
         $this->reference = $reference;
 
         return $this;
@@ -142,8 +147,7 @@ class Customer
      *
      * @return integer
      */
-    public function getReference()
-    {
+    public function getReference() {
         return $this->reference;
     }
 
@@ -154,8 +158,7 @@ class Customer
      *
      * @return Customer
      */
-    public function setGroup($group)
-    {
+    public function setGroup($group) {
         $this->group = $group;
 
         return $this;
@@ -166,8 +169,7 @@ class Customer
      *
      * @return integer
      */
-    public function getGroup()
-    {
+    public function getGroup() {
         return $this->group;
     }
 
@@ -178,8 +180,7 @@ class Customer
      *
      * @return Customer
      */
-    public function setEmail($email)
-    {
+    public function setEmail($email) {
         $this->email = $email;
 
         return $this;
@@ -190,8 +191,7 @@ class Customer
      *
      * @return string
      */
-    public function getEmail()
-    {
+    public function getEmail() {
         return $this->email;
     }
 
@@ -202,8 +202,7 @@ class Customer
      *
      * @return Customer
      */
-    public function setUsername($username)
-    {
+    public function setUsername($username) {
         $this->username = $username;
 
         return $this;
@@ -214,8 +213,7 @@ class Customer
      *
      * @return string
      */
-    public function getUsername()
-    {
+    public function getUsername() {
         return $this->username;
     }
 
@@ -226,8 +224,7 @@ class Customer
      *
      * @return Customer
      */
-    public function setPassword($password)
-    {
+    public function setPassword($password) {
         $this->password = $password;
 
         return $this;
@@ -238,8 +235,7 @@ class Customer
      *
      * @return string
      */
-    public function getPassword()
-    {
+    public function getPassword() {
         return $this->password;
     }
 
@@ -250,8 +246,7 @@ class Customer
      *
      * @return Customer
      */
-    public function setCode($code)
-    {
+    public function setCode($code) {
         $this->code = $code;
 
         return $this;
@@ -262,8 +257,7 @@ class Customer
      *
      * @return string
      */
-    public function getCode()
-    {
+    public function getCode() {
         return $this->code;
     }
 
@@ -274,8 +268,7 @@ class Customer
      *
      * @return Customer
      */
-    public function setName($name)
-    {
+    public function setName($name) {
         $this->name = $name;
 
         return $this;
@@ -286,8 +279,7 @@ class Customer
      *
      * @return string
      */
-    public function getName()
-    {
+    public function getName() {
         return $this->name;
     }
 
@@ -298,8 +290,7 @@ class Customer
      *
      * @return Customer
      */
-    public function setAfm($afm)
-    {
+    public function setAfm($afm) {
         $this->afm = $afm;
 
         return $this;
@@ -310,8 +301,7 @@ class Customer
      *
      * @return string
      */
-    public function getAfm()
-    {
+    public function getAfm() {
         return $this->afm;
     }
 
@@ -322,8 +312,7 @@ class Customer
      *
      * @return Customer
      */
-    public function setAddress($address)
-    {
+    public function setAddress($address) {
         $this->address = $address;
 
         return $this;
@@ -334,8 +323,7 @@ class Customer
      *
      * @return string
      */
-    public function getAddress()
-    {
+    public function getAddress() {
         return $this->address;
     }
 
@@ -346,8 +334,7 @@ class Customer
      *
      * @return Customer
      */
-    public function setDistrict($district)
-    {
+    public function setDistrict($district) {
         $this->district = $district;
 
         return $this;
@@ -358,8 +345,7 @@ class Customer
      *
      * @return string
      */
-    public function getDistrict()
-    {
+    public function getDistrict() {
         return $this->district;
     }
 
@@ -370,8 +356,7 @@ class Customer
      *
      * @return Customer
      */
-    public function setCity($city)
-    {
+    public function setCity($city) {
         $this->city = $city;
 
         return $this;
@@ -382,8 +367,7 @@ class Customer
      *
      * @return string
      */
-    public function getCity()
-    {
+    public function getCity() {
         return $this->city;
     }
 
@@ -394,8 +378,7 @@ class Customer
      *
      * @return Customer
      */
-    public function setZip($zip)
-    {
+    public function setZip($zip) {
         $this->zip = $zip;
 
         return $this;
@@ -406,8 +389,7 @@ class Customer
      *
      * @return integer
      */
-    public function getZip()
-    {
+    public function getZip() {
         return $this->zip;
     }
 
@@ -418,8 +400,7 @@ class Customer
      *
      * @return Customer
      */
-    public function setPhone01($phone01)
-    {
+    public function setPhone01($phone01) {
         $this->phone01 = $phone01;
 
         return $this;
@@ -430,8 +411,7 @@ class Customer
      *
      * @return string
      */
-    public function getPhone01()
-    {
+    public function getPhone01() {
         return $this->phone01;
     }
 
@@ -442,8 +422,7 @@ class Customer
      *
      * @return Customer
      */
-    public function setPhone02($phone02)
-    {
+    public function setPhone02($phone02) {
         $this->phone02 = $phone02;
 
         return $this;
@@ -454,8 +433,7 @@ class Customer
      *
      * @return string
      */
-    public function getPhone02()
-    {
+    public function getPhone02() {
         return $this->phone02;
     }
 
@@ -466,8 +444,7 @@ class Customer
      *
      * @return Customer
      */
-    public function setFax($fax)
-    {
+    public function setFax($fax) {
         $this->fax = $fax;
 
         return $this;
@@ -478,8 +455,7 @@ class Customer
      *
      * @return string
      */
-    public function getFax()
-    {
+    public function getFax() {
         return $this->fax;
     }
 
@@ -490,8 +466,7 @@ class Customer
      *
      * @return Customer
      */
-    public function setWebpage($webpage)
-    {
+    public function setWebpage($webpage) {
         $this->webpage = $webpage;
 
         return $this;
@@ -502,8 +477,7 @@ class Customer
      *
      * @return string
      */
-    public function getWebpage()
-    {
+    public function getWebpage() {
         return $this->webpage;
     }
 
@@ -514,8 +488,7 @@ class Customer
      *
      * @return Customer
      */
-    public function setPayment($payment)
-    {
+    public function setPayment($payment) {
         $this->payment = $payment;
 
         return $this;
@@ -526,8 +499,7 @@ class Customer
      *
      * @return integer
      */
-    public function getPayment()
-    {
+    public function getPayment() {
         return $this->payment;
     }
 
@@ -538,8 +510,7 @@ class Customer
      *
      * @return Customer
      */
-    public function setStatus($status)
-    {
+    public function setStatus($status) {
         $this->status = $status;
 
         return $this;
@@ -550,8 +521,7 @@ class Customer
      *
      * @return integer
      */
-    public function getStatus()
-    {
+    public function getStatus() {
         return $this->status;
     }
 
@@ -562,8 +532,7 @@ class Customer
      *
      * @return Customer
      */
-    public function setTs($ts)
-    {
+    public function setTs($ts) {
         $this->ts = $ts;
 
         return $this;
@@ -574,8 +543,7 @@ class Customer
      *
      * @return \DateTime
      */
-    public function getTs()
-    {
+    public function getTs() {
         return $this->ts;
     }
 
@@ -586,8 +554,7 @@ class Customer
      *
      * @return Customer
      */
-    public function setCreated($created)
-    {
+    public function setCreated($created) {
         $this->created = $created;
 
         return $this;
@@ -598,8 +565,7 @@ class Customer
      *
      * @return \DateTime
      */
-    public function getCreated()
-    {
+    public function getCreated() {
         return $this->created;
     }
 
@@ -610,8 +576,7 @@ class Customer
      *
      * @return Customer
      */
-    public function setModified($modified)
-    {
+    public function setModified($modified) {
         $this->modified = $modified;
 
         return $this;
@@ -622,8 +587,7 @@ class Customer
      *
      * @return \DateTime
      */
-    public function getModified()
-    {
+    public function getModified() {
         return $this->modified;
     }
 
@@ -632,8 +596,7 @@ class Customer
      *
      * @return integer
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -644,8 +607,7 @@ class Customer
      *
      * @return Customer
      */
-    public function setActioneer(\AppBundle\Entity\User $actioneer = null)
-    {
+    public function setActioneer(\AppBundle\Entity\User $actioneer = null) {
         $this->actioneer = $actioneer;
 
         return $this;
@@ -656,8 +618,8 @@ class Customer
      *
      * @return \AppBundle\Entity\User
      */
-    public function getActioneer()
-    {
+    public function getActioneer() {
         return $this->actioneer;
     }
+
 }

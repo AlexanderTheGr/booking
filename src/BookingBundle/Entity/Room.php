@@ -5,8 +5,15 @@ namespace BookingBundle\Entity;
 /**
  * Room
  */
-class Room
-{
+class Room {
+    public function getField($field) {
+        return $this->$field;
+    }
+
+    public function setField($field, $val) {
+        $this->$field = $val;
+        return $val;
+    }
     /**
      * @var string
      */
@@ -42,7 +49,6 @@ class Room
      */
     private $id;
 
-
     /**
      * Set description
      *
@@ -50,8 +56,7 @@ class Room
      *
      * @return Room
      */
-    public function setDescription($description)
-    {
+    public function setDescription($description) {
         $this->description = $description;
 
         return $this;
@@ -62,8 +67,7 @@ class Room
      *
      * @return string
      */
-    public function getDescription()
-    {
+    public function getDescription() {
         return $this->description;
     }
 
@@ -74,8 +78,7 @@ class Room
      *
      * @return Room
      */
-    public function setStatus($status)
-    {
+    public function setStatus($status) {
         $this->status = $status;
 
         return $this;
@@ -86,8 +89,7 @@ class Room
      *
      * @return integer
      */
-    public function getStatus()
-    {
+    public function getStatus() {
         return $this->status;
     }
 
@@ -98,8 +100,7 @@ class Room
      *
      * @return Room
      */
-    public function setTs($ts)
-    {
+    public function setTs($ts) {
         $this->ts = $ts;
 
         return $this;
@@ -110,8 +111,7 @@ class Room
      *
      * @return \DateTime
      */
-    public function getTs()
-    {
+    public function getTs() {
         return $this->ts;
     }
 
@@ -122,8 +122,7 @@ class Room
      *
      * @return Room
      */
-    public function setActioneer($actioneer)
-    {
+    public function setActioneer($actioneer) {
         $this->actioneer = $actioneer;
 
         return $this;
@@ -134,8 +133,7 @@ class Room
      *
      * @return integer
      */
-    public function getActioneer()
-    {
+    public function getActioneer() {
         return $this->actioneer;
     }
 
@@ -146,8 +144,7 @@ class Room
      *
      * @return Room
      */
-    public function setCreated($created)
-    {
+    public function setCreated($created) {
         $this->created = $created;
 
         return $this;
@@ -158,8 +155,7 @@ class Room
      *
      * @return \DateTime
      */
-    public function getCreated()
-    {
+    public function getCreated() {
         return $this->created;
     }
 
@@ -170,8 +166,7 @@ class Room
      *
      * @return Room
      */
-    public function setModified($modified)
-    {
+    public function setModified($modified) {
         $this->modified = $modified;
 
         return $this;
@@ -182,8 +177,7 @@ class Room
      *
      * @return \DateTime
      */
-    public function getModified()
-    {
+    public function getModified() {
         return $this->modified;
     }
 
@@ -192,15 +186,14 @@ class Room
      *
      * @return integer
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
+
     /**
      * @var \BookingBundle\Entity\RoomCategory
      */
     private $category;
-
 
     /**
      * Set category
@@ -209,8 +202,7 @@ class Room
      *
      * @return Room
      */
-    public function setCategory(\BookingBundle\Entity\RoomCategory $category = null)
-    {
+    public function setCategory(\BookingBundle\Entity\RoomCategory $category = null) {
         $this->category = $category;
 
         return $this;
@@ -221,8 +213,7 @@ class Room
      *
      * @return \BookingBundle\Entity\RoomCategory
      */
-    public function getCategory()
-    {
+    public function getCategory() {
         return $this->category;
     }
 
@@ -234,8 +225,7 @@ class Room
     /**
      * Constructor
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->schedulers = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -246,8 +236,7 @@ class Room
      *
      * @return Room
      */
-    public function addScheduler(\BookingBundle\Entity\Scheduler $scheduler)
-    {
+    public function addScheduler(\BookingBundle\Entity\Scheduler $scheduler) {
         $this->schedulers[] = $scheduler;
 
         return $this;
@@ -258,8 +247,7 @@ class Room
      *
      * @param \BookingBundle\Entity\Scheduler $scheduler
      */
-    public function removeScheduler(\BookingBundle\Entity\Scheduler $scheduler)
-    {
+    public function removeScheduler(\BookingBundle\Entity\Scheduler $scheduler) {
         $this->schedulers->removeElement($scheduler);
     }
 
@@ -268,8 +256,8 @@ class Room
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getSchedulers()
-    {
+    public function getSchedulers() {
         return $this->schedulers;
     }
+
 }

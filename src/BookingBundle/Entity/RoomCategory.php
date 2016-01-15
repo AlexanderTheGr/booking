@@ -5,8 +5,15 @@ namespace BookingBundle\Entity;
 /**
  * RoomCategory
  */
-class RoomCategory
-{
+class RoomCategory {
+    public function getField($field) {
+        return $this->$field;
+    }
+
+    public function setField($field, $val) {
+        $this->$field = $val;
+        return $val;
+    }
     /**
      * @var string
      */
@@ -42,7 +49,6 @@ class RoomCategory
      */
     private $actioneer;
 
-
     /**
      * Set description
      *
@@ -50,8 +56,7 @@ class RoomCategory
      *
      * @return RoomCategory
      */
-    public function setDescription($description)
-    {
+    public function setDescription($description) {
         $this->description = $description;
 
         return $this;
@@ -62,8 +67,7 @@ class RoomCategory
      *
      * @return string
      */
-    public function getDescription()
-    {
+    public function getDescription() {
         return $this->description;
     }
 
@@ -74,8 +78,7 @@ class RoomCategory
      *
      * @return RoomCategory
      */
-    public function setStatus($status)
-    {
+    public function setStatus($status) {
         $this->status = $status;
 
         return $this;
@@ -86,8 +89,7 @@ class RoomCategory
      *
      * @return integer
      */
-    public function getStatus()
-    {
+    public function getStatus() {
         return $this->status;
     }
 
@@ -98,8 +100,7 @@ class RoomCategory
      *
      * @return RoomCategory
      */
-    public function setTs($ts)
-    {
+    public function setTs($ts) {
         $this->ts = $ts;
 
         return $this;
@@ -110,8 +111,7 @@ class RoomCategory
      *
      * @return \DateTime
      */
-    public function getTs()
-    {
+    public function getTs() {
         return $this->ts;
     }
 
@@ -122,8 +122,7 @@ class RoomCategory
      *
      * @return RoomCategory
      */
-    public function setCreated($created)
-    {
+    public function setCreated($created) {
         $this->created = $created;
 
         return $this;
@@ -134,8 +133,7 @@ class RoomCategory
      *
      * @return \DateTime
      */
-    public function getCreated()
-    {
+    public function getCreated() {
         return $this->created;
     }
 
@@ -146,8 +144,7 @@ class RoomCategory
      *
      * @return RoomCategory
      */
-    public function setModified($modified)
-    {
+    public function setModified($modified) {
         $this->modified = $modified;
 
         return $this;
@@ -158,8 +155,7 @@ class RoomCategory
      *
      * @return \DateTime
      */
-    public function getModified()
-    {
+    public function getModified() {
         return $this->modified;
     }
 
@@ -168,8 +164,7 @@ class RoomCategory
      *
      * @return integer
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -180,8 +175,7 @@ class RoomCategory
      *
      * @return RoomCategory
      */
-    public function setActioneer(\AppBundle\Entity\User $actioneer = null)
-    {
+    public function setActioneer(\AppBundle\Entity\User $actioneer = null) {
         $this->actioneer = $actioneer;
 
         return $this;
@@ -192,15 +186,14 @@ class RoomCategory
      *
      * @return \AppBundle\Entity\User
      */
-    public function getActioneer()
-    {
+    public function getActioneer() {
         return $this->actioneer;
     }
+
     /**
      * @var string
      */
     private $title;
-
 
     /**
      * Set title
@@ -209,8 +202,7 @@ class RoomCategory
      *
      * @return RoomCategory
      */
-    public function setTitle($title)
-    {
+    public function setTitle($title) {
         $this->title = $title;
 
         return $this;
@@ -221,8 +213,8 @@ class RoomCategory
      *
      * @return string
      */
-    public function getTitle()
-    {
+    public function getTitle() {
         return $this->title;
     }
+
 }

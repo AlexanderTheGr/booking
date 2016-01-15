@@ -21,6 +21,7 @@ class Main extends Controller {
     var $rmd;
 
     function __construct() {
+        
     }
 
     public function content() {
@@ -43,7 +44,7 @@ class Main extends Controller {
         ini_set("memory_limit", "1256M");
         $request = Request::createFromGlobals();
 
- 
+
         $recordsTotal = 0;
         $recordsFiltered = 0;
         //$this->q_or = array();
@@ -109,7 +110,7 @@ class Main extends Controller {
         $jsonarr = array();
         $r = explode(":", $this->repository);
 
-        foreach (@(array)$results as $result) {
+        foreach (@(array) $results as $result) {
             $json = array();
             foreach ($data["fields"] as $field) {
                 if (@$field["index"]) {
@@ -136,7 +137,7 @@ class Main extends Controller {
                         }
                     }
                 } elseif (@$field["function"]) {
-                    $func = $field["function"]; 
+                    $func = $field["function"];
                     $obj = $em->getRepository($this->repository)->find($result["id"]);
                     $json[] = $obj->$func(count($results));
                 }
@@ -248,7 +249,7 @@ class Main extends Controller {
         $session = new Session();
         $session->set('params_' . $params['key'], $params['dtparams']);
         foreach ($params['dtparams'] as $param) {
-            $fields[] = array('content' => $param["name"],'input' => @$param["input"]);
+            $fields[] = array('content' => $param["name"], 'input' => @$param["input"]);
         }
         $datatable = array(
             'url' => $params['url'], // '/order/getitems/' . $id,
@@ -337,7 +338,7 @@ class Main extends Controller {
 
     function save() {
         $data = $this->formLybase64();
-        
+        $dt = new \DateTime("now");
         $entities = array();
 
         foreach ($data as $key => $val) {
@@ -353,21 +354,34 @@ class Main extends Controller {
             $entities[$df[0] . ":" . $df[1]]->setField($df[2], $val);
         }
         foreach ($entities as $key => $entity) {
+            $entity->setModified($dt);
             $this->flushpersist($entity);
             $out[$key] = $entity->getId();
         }
         return $out;
     }
+
+    function initialazeNewEntity($entity) {
+        $dt = new \DateTime("now");
+        $this->newentity[$this->repository] = $entity;
+        $this->newentity[$this->repository]->setTs($dt);
+        $this->newentity[$this->repository]->setCreated($dt);
+        $this->newentity[$this->repository]->setModified($dt);
+    }
+
     function flushpersist($entity) {
         $em = $this->getDoctrine()->getManager();
         $em->persist($entity);
         $em->flush();
+        return $entity;
     }
+
     function flushremove($entity) {
         $em = $this->getDoctrine()->getManager();
         $em->remove($entity);
         $em->flush();
     }
+
     function getFormLyFields($entity, $fields) {
         $forms["model"] = array();
         foreach ($fields as $field => $options) {
