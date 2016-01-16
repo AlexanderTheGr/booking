@@ -79,7 +79,8 @@ class RoomController extends Main {
             $entity = new Room;
             $this->newentity[$this->repository] = $entity;
         }
-        $fields["description"] = array("label" => "Room Code");
+        $fields["description"] = array("label" => "Bescription");
+        $fields["amount"] = array("label" => "Amount");
 
 
         $forms = $this->getFormLyFields($entity, $fields);

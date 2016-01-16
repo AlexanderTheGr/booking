@@ -3,8 +3,8 @@
         var defaults = {
             dateFormat: 'YYYY-MM-DD',
             resourceAreaWidth: 230,
-            editable: true,
-            aspectRatio: 1.5,
+            editable: false,
+            aspectRatio: 1.8,
             scrollTime: '00:00',
             schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
             event: 'scheduler/event',
@@ -32,8 +32,7 @@
             scheduler.fullCalendar({
                 resourceAreaWidth: settings.resourceAreaWidth,
                 editable: settings.editable,
-                theme: true,
-                overlap: false,
+                theme: false,
                 aspectRatio: 1.5,
                 scrollTime: settings.scrollTime,
                 schedulerLicenseKey: settings.schedulerLicenseKey,
@@ -67,9 +66,10 @@
                         snapDuration: '24:00:00'
                     }
                 },
+                eventOverlap: false,
                 resourceLabelText: 'Rooms',
                 resources: {// you can also specify a plain string like 'json/resources.json'
-                    url: 'scheduler/resources',
+                    url: 'scheduler/resources?start='+moment(scheduler.fullCalendar('getView').start).format(settings.dateFormat)+"&end="+moment(scheduler.fullCalendar('getView').visEnd).format(settings.dateFormat),
                     error: function () {
                         $('#script-warning').show();
                     }
@@ -79,9 +79,6 @@
                     error: function () {
                         $('#script-warning').show();
                     }
-                },
-                eventOverlap: function (stillEvent, movingEvent) {
-                    return stillEvent.allDay && movingEvent.allDay;
                 },
                 eventDrop: function (event, delta, revertFunc, jsEvent, ui, view) {
                     postEvent(event, 'eventDrop');
@@ -106,6 +103,7 @@
                 },
                 dayClick: function (date, jsEvent, view, resourceObj) {
                     var event = {};
+                    var title;
                     if (title = prompt('Room name')) {
                         event.start = moment(date).format(settings.dateFormat);
                         event.end = moment(date).format(settings.dateFormat);
@@ -127,6 +125,9 @@
             })
         }
         function refetchCalendar() {
+            //alert(scheduler.fullCalendar('getView').start)
+            //alert(scheduler.fullCalendar('getView').end)
+            scheduler.fullCalendar('refetchResources');
             scheduler.fullCalendar('refetchEvents')
         }
         function calEvent(calEvent) {
@@ -138,6 +139,7 @@
             data.allDay = calEvent.allDay;
             data.resourceId = calEvent.resourceId;
             data.editable = calEvent.editable;
+            data.title = calEvent.title;
             return data;
         }
     }

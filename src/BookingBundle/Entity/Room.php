@@ -260,4 +260,33 @@ class Room {
         return $this->schedulers;
     }
 
+    /**
+     * @var integer
+     */
+    private $amount;
+
+
+    /**
+     * Set amount
+     *
+     * @param integer $amount
+     *
+     * @return Room
+     */
+    public function setAmount($amount)
+    {
+        $this->amount = $amount;
+
+        return $this;
+    }
+
+    /**
+     * Get amount
+     *
+     * @return integer
+     */
+    public function getAmount()
+    {
+        return $this->amount;
+    }
 }
