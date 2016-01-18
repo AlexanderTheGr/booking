@@ -6,21 +6,21 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Controller\Main;
-use BookingBundle\Entity\Room as Room;
+use BookingBundle\Entity\RoomCategory as RoomCategory;
 
-class RoomController extends Main {
+class RoomCategoryController extends Main {
 
-    var $repository = 'BookingBundle:Room';
+    var $repository = 'BookingBundle:RoomCategory';
     var $newentity = '';
 
     /**
-     * @Route("/room/room")
+     * @Route("/roomCategory/roomCategory")
      */
     public function indexAction() {
-        return $this->render('BookingBundle:Room:index.html.twig', array(
-                    'pagename' => 'Rooms',
-                    'url' => '/room/getdatatable',
-                    'view' => '/room/view',
+        return $this->render('BookingBundle:RoomCategory:index.html.twig', array(
+                    'pagename' => 'RoomCategorys',
+                    'url' => '/roomCategory/getdatatable',
+                    'view' => '/roomCategory/view',
                     'ctrl' => $this->generateRandomString(),
                     'app' => $this->generateRandomString(),
                     'base_dir' => realpath($this->container->getParameter('kernel.root_dir') . '/..'),
@@ -28,19 +28,17 @@ class RoomController extends Main {
     }
 
     /**
-     * @Route("/room/view/{id}")
+     * @Route("/roomCategory/view/{id}")
      */
     public function viewAction($id) {
 
         $buttons = array();
         $content = $this->gettabs($id);
         //$content = $this->getoffcanvases($id);
-
         $content = $this->content();
-
-        return $this->render('BookingBundle:Room:view.html.twig', array(
-                    'pagename' => 'Room',
-                    'url' => '/room/save',
+        return $this->render('BookingBundle:RoomCategory:view.html.twig', array(
+                    'pagename' => 'RoomCategory',
+                    'url' => '/roomCategory/save',
                     'buttons' => $buttons,
                     'ctrl' => $this->generateRandomString(),
                     'app' => $this->generateRandomString(),
@@ -50,16 +48,16 @@ class RoomController extends Main {
     }
 
     /**
-     * @Route("/room/save")
+     * @Route("/roomCategory/save")
      */
     public function savection() {
-        $entity = new Room;
+        $entity = new RoomCategory;
         $this->initialazeNewEntity($entity);
         $this->newentity[$this->repository]->setField("status", 1);
         $out = $this->save();
         $jsonarr = array();
         if ($this->newentity[$this->repository]->getId()) {
-            $jsonarr["returnurl"] = "/room/view/" . $this->newentity[$this->repository]->getId();
+            $jsonarr["returnurl"] = "/roomCategory/view/" . $this->newentity[$this->repository]->getId();
         }
         $json = json_encode($jsonarr);
         return new Response(
@@ -68,7 +66,7 @@ class RoomController extends Main {
     }
 
     /**
-     * @Route("/room/gettab")
+     * @Route("/roomCategory/gettab")
      */
     public function gettabs($id) {
 
@@ -76,11 +74,12 @@ class RoomController extends Main {
                 ->getRepository($this->repository)
                 ->find($id);
         if ($id == 0 AND @ $entity->id == 0) {
-            $entity = new Room;
+            $entity = new RoomCategory;
             $this->newentity[$this->repository] = $entity;
         }
-        $fields["description"] = array("label" => "Bescription");
-        $fields["amount"] = array("label" => "Amount");
+        $fields["title"] = array("label" => "title");
+        $fields["description"] = array("label" => "Description");
+        
 
 
         $forms = $this->getFormLyFields($entity, $fields);
@@ -90,14 +89,12 @@ class RoomController extends Main {
     }
 
     /**
-     * @Route("/room/getdatatable")
+     * @Route("/roomCategory/getdatatable")
      */
     public function getdatatableAction(Request $request) {
-        $this->repository = 'BookingBundle:Room';
+        $this->repository = 'BookingBundle:RoomCategory';
         $this->addField(array("name" => "ID", "index" => 'id'))
-                ->addField(array("name" => "Name", "index" => 'description', 'search' => 'text'))
-                ->addField(array("name" => "Name", "index" => 'RoomCategory:title', 'search' => 'text'))
-                ;
+                ->addField(array("name" => "Name", "index" => 'title', 'search' => 'text'));
 
         $json = $this->datatable();
         return new Response(

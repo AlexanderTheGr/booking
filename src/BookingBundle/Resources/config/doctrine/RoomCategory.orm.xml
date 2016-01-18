@@ -36,5 +36,6 @@
             join-column="actioneer">
             <join-column name="actioneer" referenced-column-name="id" />
         </many-to-one> 
+        <one-to-many field="rooms" target-entity="Room" mapped-by="RoomCategory" />  
     </entity>
 </doctrine-mapping>

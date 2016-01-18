@@ -36,7 +36,7 @@
             <join-column name="actioneer" referenced-column-name="id" />
         </many-to-one> 
         <many-to-one
-            field="category"
+            field="RoomCategory"
             target-entity="BookingBundle\Entity\RoomCategory"
             inversed-by="Rooms"
             join-column="category">

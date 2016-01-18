@@ -6,6 +6,7 @@ namespace BookingBundle\Entity;
  * Room
  */
 class Room {
+
     public function getField($field) {
         return $this->$field;
     }
@@ -14,6 +15,7 @@ class Room {
         $this->$field = $val;
         return $val;
     }
+
     /**
      * @var string
      */
@@ -193,18 +195,17 @@ class Room {
     /**
      * @var \BookingBundle\Entity\RoomCategory
      */
-    private $category;
+    private $RoomCategory;
 
     /**
-     * Set category
+     * Set roomCategory
      *
-     * @param \BookingBundle\Entity\RoomCategory $category
+     * @param \BookingBundle\Entity\RoomCategory $roomCategory
      *
      * @return Room
      */
-    public function setCategory(\BookingBundle\Entity\RoomCategory $category = null) {
-        $this->category = $category;
-
+    public function setRoomCategory(\BookingBundle\Entity\RoomCategory $roomCategory = null) {
+        $this->RoomCategory = $roomCategory;
         return $this;
     }
 
@@ -213,8 +214,8 @@ class Room {
      *
      * @return \BookingBundle\Entity\RoomCategory
      */
-    public function getCategory() {
-        return $this->category;
+    public function getRoomCategory() {
+        return $this->RoomCategory;
     }
 
     /**
@@ -265,7 +266,6 @@ class Room {
      */
     private $amount;
 
-
     /**
      * Set amount
      *
@@ -273,8 +273,7 @@ class Room {
      *
      * @return Room
      */
-    public function setAmount($amount)
-    {
+    public function setAmount($amount) {
         $this->amount = $amount;
 
         return $this;
@@ -285,8 +284,8 @@ class Room {
      *
      * @return integer
      */
-    public function getAmount()
-    {
+    public function getAmount() {
         return $this->amount;
     }
+
 }

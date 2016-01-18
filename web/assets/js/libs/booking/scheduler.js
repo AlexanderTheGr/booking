@@ -3,7 +3,7 @@
         var defaults = {
             dateFormat: 'YYYY-MM-DD',
             resourceAreaWidth: 230,
-            editable: false,
+            editable: true,
             aspectRatio: 1.8,
             scrollTime: '00:00',
             schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
@@ -132,8 +132,10 @@
         }
         function calEvent(calEvent) {
             var data = {};
+            
             data.start = moment(calEvent.start).format(settings.dateFormat);
             data.end = moment(calEvent.end).format(settings.dateFormat);
+            
             data.end = data.end == 'Invalid date' ? data.start : data.end;
             data.id = calEvent.id;
             data.allDay = calEvent.allDay;

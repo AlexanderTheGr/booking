@@ -6,6 +6,7 @@ namespace BookingBundle\Entity;
  * RoomCategory
  */
 class RoomCategory {
+
     public function getField($field) {
         return $this->$field;
     }
@@ -14,6 +15,7 @@ class RoomCategory {
         $this->$field = $val;
         return $val;
     }
+
     /**
      * @var string
      */
@@ -216,5 +218,55 @@ class RoomCategory {
     public function getTitle() {
         return $this->title;
     }
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $rooms;
+
+    /**
+     * Constructor
+     */
+    public function __construct() {
+        $this->rooms = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add room
+     *
+     * @param \BookingBundle\Entity\Room $room
+     *
+     * @return RoomCategory
+     */
+    public function addRoom(\BookingBundle\Entity\Room $room) {
+        $this->rooms[] = $room;
+
+        return $this;
+    }
+
+    /**
+     * Remove room
+     *
+     * @param \BookingBundle\Entity\Room $room
+     */
+    public function removeRoom(\BookingBundle\Entity\Room $room) {
+        $this->rooms->removeElement($room);
+    }
+
+    /**
+     * Get rooms
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getRooms() {
+        return $this->rooms;
+    }
+    public function getRoomIds() {
+        $ids = array();
+        foreach ($this->rooms as $room) {
+            $ids[] = $room->getId();
+        }
+        return $ids;
+    }    
 
 }
