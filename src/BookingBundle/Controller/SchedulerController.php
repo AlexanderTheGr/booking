@@ -38,7 +38,7 @@ class SchedulerController extends Main {
         
         $em = $this->getDoctrine()->getManager();
         $results = $em->getRepository('BookingBundle:RoomCategory')->findAll();
-
+        $jsonarr = array();
         foreach (@(array) $results as $roomCategory) {
             for ($i = $startTime; $i <= $endTime; $i = $i + 86400) {
                 $thisDate = date('Y-m-d', $i);
@@ -53,14 +53,24 @@ class SchedulerController extends Main {
                 $json = array();
                 $d = count($rooms) - count($books);
 
+                if ($d == 0) {
+                    $backgroundColor = "#ff0000";
+                } elseif ($d == count($rooms)) {
+                    $backgroundColor = "#008800";
+                } else {
+                    $backgroundColor = "#ff8000";
+                }
+                
+                
                 $json["id"] = "A" . $roomCategory->getId() . $i;
                 $json["resourceId"] = "RC-" . $roomCategory->getId();
                 $json["start"] = $thisDate;
                 $json["end"] = $thisDate;
                 $json["title"] = "A:" . $d;
                 $json["overlap"] = true;
-                $json["editatable"] = 0;
-                $json["backgroundColor"] = '#ff8000';
+                $json["editable"] = false;
+                $json["draggable"] = false;
+                $json["backgroundColor"] = $backgroundColor;
 
                 $jsonarr[] = $json;
 
@@ -71,24 +81,38 @@ class SchedulerController extends Main {
                 $json["end"] = $thisDate;
                 $json["title"] = "B:" . count($books);
                 $json["overlap"] = true;
-                $json["editatable"] = 0;
-                $json["dragable"] = false;
+                $json["editable"] = false;
+                $json["draggable"] = false;
                 $json["backgroundColor"] = '#af8000';
                 $jsonarr[] = $json;
+                
             }
         }
 
         $results = $em->getRepository('BookingBundle:Scheduler')->findAll();
         foreach (@(array) $results as $scheduler) {
             $json = array();
-            $json["id"] = $scheduler->getId();
-            $json["resourceId"] = $scheduler->getRoom()->getRoomCategory()->getId() . "-" . $scheduler->getRoom()->getId();
-            $json["start"] = $scheduler->getStart()->format('Y-m-d');
-            $json["end"] = $scheduler->getEnd()->format('Y-m-d');
-            $json["title"] = $scheduler->getId(); // $scheduler->getDescription();
-            $json["overlap"] = true;
-            $json["editatable"] = true;
-            $jsonarr[] = $json;
+            
+            $start = strtotime($scheduler->getStart()->format('Y-m-d'));
+            $end = strtotime($scheduler->getEnd()->format('Y-m-d'));
+            $go = true;
+            if ($startTime >= $start AND $startTime >= $end) {
+                $go = false;
+            }
+            if ($endTime <= $start AND $endTime <= $end) {
+                $go = false;
+            }            
+            if ($go) {
+                $json["id"] = $scheduler->getId();
+                $json["resourceId"] = $scheduler->getRoom()->getRoomCategory()->getId() . "-" . $scheduler->getRoom()->getId();
+                $json["start"] = $scheduler->getStart()->format('Y-m-d');
+                $json["end"] = $scheduler->getEnd()->format('Y-m-d');
+                $json["title"] = $scheduler->getId(); // $scheduler->getDescription();
+                $json["overlap"] = true;
+                $json["editable"] = true;
+                $jsonarr[] = $json;
+            }
+            
         }
 
 
@@ -115,8 +139,6 @@ class SchedulerController extends Main {
             $json["title"] = $roomCategory->getTitle();
             $jsonchildrenarr = array();
 
-            $start = '2016-01-01';
-            $end = '2016-02-01';
             $json["children"] = array();
             foreach ($roomCategory->getRooms() as $room) {
                 $jsonchildren["id"] = $roomCategory->getId() . "-" . $room->getId();
