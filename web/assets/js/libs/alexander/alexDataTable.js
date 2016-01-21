@@ -55,7 +55,7 @@
                     dt_table.$('tr.selected').removeClass('selected');
                     $(this).addClass('selected');
                 }
-                location.href = view + "/" + $(this).attr("ref");
+                location.href = view + "/" + $(this).attr("data-id");
             });
             
             $(".btn_new_"+ctrl).live('click', function () {
@@ -73,7 +73,7 @@
 
         }
         function createdRow(nRow, aData, iDataIndex) {
-            $(nRow).attr('ref', aData[0]);
+            $(nRow).attr('data-id', aData[0]);
             $(nRow).attr('ng-click', "toggle()");
         }
     }

@@ -3,6 +3,7 @@
 namespace BookingBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Controller\Main;
@@ -79,14 +80,50 @@ class RoomCategoryController extends Main {
         }
         $fields["title"] = array("label" => "title");
         $fields["description"] = array("label" => "Description");
-        
-
 
         $forms = $this->getFormLyFields($entity, $fields);
+        
+        
+        $dtparams[] = array("name" => "ID", "index" => 'id');
+        $dtparams[] = array("name" => "Name", "index" => 'description', 'search' => 'text');
+        $dtparams[] = array("name" => "Number", "index" => 'number',"input" => "text", 'search' => 'text');
+        $dtparams[] = array("name" => "Name", "index" => 'RoomCategory:title', 'search' => 'text');
+        
+        
+        $params['dtparams'] = $dtparams;
+        $params['id'] = $dtparams;
+        $params['key'] = 'gettabs_' . $id;
+        $params['url'] = '/roomCategory/getrooms/'.$id;
+        $params["ctrl"] = 'ctrlgettabs';
+        $params["view"] = '/roomCategory/view';
+        $params["app"] = 'appgettabs';
+        $datatables[] = $this->contentDatatable($params);
+        
+        
         $this->addTab(array("title" => "General1", "form" => $forms, "content" => '', "index" => $this->generateRandomString(), 'search' => 'text', "active" => true));
+        if ($entity->getId()) {
+            $this->addTab(array("title" => "Rooms", "datatables" => $datatables, "form" => '', "content" => '', "index" => $this->generateRandomString(), 'search' => 'text', "active" => false));
+        }
+
         $json = $this->tabs();
         return $json;
     }
+    
+    /**
+     * @Route("/roomCategory/getrooms/{id}")
+     */
+    public function getroomsAction($id) {
+        $session = new Session();
+        foreach ($session->get('params_gettabs_' . $id) as $param) {
+            $this->addField($param);
+        }
+        $this->repository = 'BookingBundle:Room';
+        $this->q_and[] = $this->prefix . ".RoomCategory = " . $id;        
+        $json = $this->datatable();
+        return new Response(
+                $json, 200, array('Content-Type' => 'application/json')
+        );
+    }    
 
     /**
      * @Route("/roomCategory/getdatatable")

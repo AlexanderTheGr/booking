@@ -109,6 +109,7 @@ class SchedulerController extends Main {
                 $json["end"] = $scheduler->getEnd()->format('Y-m-d');
                 $json["title"] = $scheduler->getId(); // $scheduler->getDescription();
                 $json["overlap"] = true;
+                $json["overlap"] = false;
                 $json["editable"] = true;
                 $jsonarr[] = $json;
             }

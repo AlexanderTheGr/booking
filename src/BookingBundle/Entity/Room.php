@@ -7,15 +7,22 @@ namespace BookingBundle\Entity;
  */
 class Room {
 
+    private $repository = 'BookingBundle:Room';
+    
+    
     public function getField($field) {
         return $this->$field;
     }
-
     public function setField($field, $val) {
-        $this->$field = $val;
+        //$type = gettype($this->$field);
+        //$this->$field = $val;
         return $val;
     }
-
+    public function getRepository() {
+        return $this->repository;
+    }
+    
+    
     /**
      * @var string
      */
@@ -261,31 +268,34 @@ class Room {
         return $this->schedulers;
     }
 
+
     /**
      * @var integer
      */
-    private $amount;
+    private $number;
+
 
     /**
-     * Set amount
+     * Set number
      *
-     * @param integer $amount
+     * @param integer $number
      *
      * @return Room
      */
-    public function setAmount($amount) {
-        $this->amount = $amount;
+    public function setNumber($number)
+    {
+        $this->number = $number;
 
         return $this;
     }
 
     /**
-     * Get amount
+     * Get number
      *
      * @return integer
      */
-    public function getAmount() {
-        return $this->amount;
+    public function getNumber()
+    {
+        return $this->number;
     }
-
 }

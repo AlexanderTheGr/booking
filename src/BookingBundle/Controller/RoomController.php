@@ -56,6 +56,8 @@ class RoomController extends Main {
         $entity = new Room;
         $this->initialazeNewEntity($entity);
         $this->newentity[$this->repository]->setField("status", 1);
+        $this->newentity[$this->repository]->setField("RoomCategory",  '1');
+        
         $out = $this->save();
         $jsonarr = array();
         if ($this->newentity[$this->repository]->getId()) {
@@ -80,12 +82,15 @@ class RoomController extends Main {
             $this->newentity[$this->repository] = $entity;
         }
         $fields["description"] = array("label" => "Bescription");
-        $fields["amount"] = array("label" => "Amount");
+        $fields["number"] = array("label" => "Number");
+        $fields["RoomCategory"] = array("label" => "Room Category",'type'=>"select",'datasource'=>array('repository'=>'BookingBundle:RoomCategory','name'=>'title','value'=>'id'));
 
 
         $forms = $this->getFormLyFields($entity, $fields);
+
         $this->addTab(array("title" => "General1", "form" => $forms, "content" => '', "index" => $this->generateRandomString(), 'search' => 'text', "active" => true));
         $json = $this->tabs();
+
         return $json;
     }
 

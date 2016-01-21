@@ -7,6 +7,8 @@ namespace BookingBundle\Entity;
  */
 class RoomCategory {
 
+    var $repository = 'BookingBundle:RoomCategory';
+    
     public function getField($field) {
         return $this->$field;
     }
@@ -14,6 +16,9 @@ class RoomCategory {
     public function setField($field, $val) {
         $this->$field = $val;
         return $val;
+    }
+    public function getRepository() {
+        return $this->repository;
     }
 
     /**

@@ -16,7 +16,8 @@ var dt_tables = [];
 
             app.controller(ctrl, function ($scope, $http, $sce, $base64) {
                 var vm = this;
-
+                var dt_table;
+                var dt_table_view;
                 var response = angular.fromJson(html_entity_decode(content));
                 //console.log(html_entity_decode(tab));
                 vm.tabs = response.tabs;
@@ -72,17 +73,20 @@ var dt_tables = [];
             angular.forEach(p, function (r) {
                 if (r.content != "") {
                     jQuery("#" + r.index).html(html_entity_decode(r.content))
-                }                
+                }
                 angular.forEach(r.datatables, function (datatable) {
 
                     //$("."+datatable.ctrl).alexDataTable(datatable.app, datatable.ctrl, datatable.url, datatable.view)
                     $("." + datatable.ctrl).show();
-                    var dt_table = $("." + datatable.ctrl).dataTable({
+                    dt_table_view = datatable.view;
+
+                    dt_table = $("." + datatable.ctrl).dataTable({
                         "pageLength": 100,
                         "processing": true,
                         "serverSide": true,
-                        //"initComplete": initComplete,
-                        "drawCallback": function() {
+                        "initComplete": initDtTableComplete,
+                        "createdRow": createdDtTableRow,
+                        "drawCallback": function () {
                             eval(datatable.drawCallback);
                         },
                         //"rowCallback": rowCallback,
@@ -97,7 +101,31 @@ var dt_tables = [];
                 })
             })
         }
+        function initDtTableComplete(settings, json) {
 
+            $(dt_table).find('tbody').on('click', 'tr', function () {
+                if ($(this).hasClass('selected')) {
+                    $(this).removeClass('selected');
+                }
+                else {
+                    dt_table.$('tr.selected').removeClass('selected');
+                    $(this).addClass('selected');
+                }
+                location.href = dt_table_view + "/" + $(this).attr("data-id");
+            });
+
+            $(".btn_new_" + ctrl).live('click', function () {
+                location.href = dt_table_view + "/new";
+            });
+
+            $(alexander).find(".search_init").change(function () {
+                dt_table.fnFilter(this.value, $(alexander).find(".search_init").index(this));
+            });
+        }
+        function createdDtTableRow(nRow, aData, iDataIndex) {
+            $(nRow).attr('data-id', aData[0]);
+            $(nRow).attr('ng-click', "toggle()");
+        }
     }
 })(jQuery);
 function htmlEntities(str) {
