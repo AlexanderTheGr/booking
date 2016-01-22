@@ -2,27 +2,47 @@
 
 namespace BookingBundle\Entity;
 
+use AppBundle\Entity\Entity;
 /**
  * Room
  */
-class Room {
+class Room extends Entity {
 
     private $repository = 'BookingBundle:Room';
-    
-    
+    private $types = array();
+    private $repositories = array();
+
+    public function __construct() {
+        $this->repositories['RoomCategory'] = 'BookingBundle:RoomCategory';
+        $this->types['RoomCategory'] = 'object';
+        $this->RoomCategory = new \BookingBundle\Entity\RoomCategory;
+        $this->schedulers = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->seasons = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
     public function getField($field) {
         return $this->$field;
     }
+
     public function setField($field, $val) {
-        //$type = gettype($this->$field);
-        //$this->$field = $val;
+        $this->$field = $val;
         return $val;
     }
+
     public function getRepository() {
         return $this->repository;
     }
-    
-    
+
+    public function gettype($field) {
+        if (@$this->types[$field] != '') {
+            return @$this->types[$field];
+        }
+        if (gettype($field) != NULL) {
+            return gettype($this->$field);
+        }
+        return 'string';
+    }
+
     /**
      * @var string
      */
@@ -231,13 +251,6 @@ class Room {
     private $schedulers;
 
     /**
-     * Constructor
-     */
-    public function __construct() {
-        $this->schedulers = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
      * Add scheduler
      *
      * @param \BookingBundle\Entity\Scheduler $scheduler
@@ -268,12 +281,10 @@ class Room {
         return $this->schedulers;
     }
 
-
     /**
      * @var integer
      */
     private $number;
-
 
     /**
      * Set number
@@ -282,8 +293,7 @@ class Room {
      *
      * @return Room
      */
-    public function setNumber($number)
-    {
+    public function setNumber($number) {
         $this->number = $number;
 
         return $this;
@@ -294,8 +304,44 @@ class Room {
      *
      * @return integer
      */
-    public function getNumber()
-    {
+    public function getNumber() {
         return $this->number;
     }
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $seasons;
+
+    /**
+     * Add season
+     *
+     * @param \BookingBundle\Entity\RoomSeason $season
+     *
+     * @return Room
+     */
+    public function addSeason(\BookingBundle\Entity\RoomSeason $season) {
+        $this->seasons[] = $season;
+
+        return $this;
+    }
+
+    /**
+     * Remove season
+     *
+     * @param \BookingBundle\Entity\RoomSeason $season
+     */
+    public function removeSeason(\BookingBundle\Entity\RoomSeason $season) {
+        $this->seasons->removeElement($season);
+    }
+
+    /**
+     * Get seasons
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSeasons() {
+        return $this->seasons;
+    }
+
 }

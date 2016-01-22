@@ -360,10 +360,7 @@ class Main extends Controller {
             if ($df[3] == 0) {
                 $entities[$df[0] . ":" . $df[1]] = $this->newentity[$df[0] . ":" . $df[1]];
             }
-
-            $type = gettype($entities[$df[0] . ":" . $df[1]]->getField($df[2]));
-            
-            echo $df[0] . ":" . $df[1]." -- ".$df[2]." - ".$type."\n";
+            $type = $entities[$df[0] . ":" . $df[1]]->gettype($df[2]);
             if ($type == 'object') {
                 $obj = $entities[$df[0] . ":" . $df[1]]->getField($df[2]);
                 $entity = $this->getDoctrine()
@@ -416,7 +413,7 @@ class Main extends Controller {
                 foreach (@(array) $results as $data) {
                     $seloptions[] = array("name" => $data->getField($datasource['name']) . "(" . $data->getField($datasource['value']) . ")", "value" => $data->getField($datasource['value']));
                 }
-                $forms["fields"][] = array("key" => $field, "id" => $this->repository . ":" . $field . ":" . $entity->getId(), "type" => "select", "templateOptions" => array("type" => '', 'options' => $seloptions, 'defaultOptions' => $entity->getField($field), "label" => $options["label"], "required" => $options["required"]));
+                $forms["fields"][] = array("key" => $field, "id" => $this->repository . ":" . $field . ":" . $entity->getId(), 'defaultValue' => $entity->getField($field)->getId(), "type" => "select", "templateOptions" => array("type" => '', 'options' => $seloptions, 'defaultOptions' => array("value" => $entity->getField($field)->getId()), "label" => $options["label"], "required" => $options["required"]));
             } else {
                 @$options["required"] = $options["required"] ? $options["required"] : true;
                 $forms["fields"][] = array("key" => $field, "id" => $this->repository . ":" . $field . ":" . $entity->getId(), "defaultValue" => $entity->getField($field), "type" => "input", "templateOptions" => array("type" => '', "label" => $options["label"], "required" => $options["required"]));

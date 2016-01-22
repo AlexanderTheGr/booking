@@ -19,7 +19,7 @@ var dt_tables = [];
                 var dt_table;
                 var dt_table_view;
                 var response = angular.fromJson(html_entity_decode(content));
-                //console.log(html_entity_decode(tab));
+               //alert(html_entity_decode(content));
                 vm.tabs = response.tabs;
                 vm.offcanvases = response.offcanvases;
 
@@ -52,6 +52,7 @@ var dt_tables = [];
                 }
 
                 setTimeout(function () {
+
                     forEach(vm.tabs)
                     forEach(vm.offcanvases)
                 }, 30)
@@ -70,10 +71,25 @@ var dt_tables = [];
             });
         }
         function forEach(p) {
+            
             angular.forEach(p, function (r) {
-                if (r.content != "") {
+                if (r.content != undefined && r.content != "") {
                     jQuery("#" + r.index).html(html_entity_decode(r.content))
                 }
+                
+                if (r.calendar != undefined) {
+                    
+                    var html = "<div id='"+r.calendar.id+"'></div>";
+                    
+
+                    jQuery("#" + r.index).html(html_entity_decode(html))
+                    jQuery('#'+r.calendar.id).scheduler({
+                        resources:r.calendar.resources,
+                        events:r.calendar.events,
+                        event:r.calendar.event,
+                    });
+                }
+                
                 angular.forEach(r.datatables, function (datatable) {
 
                     //$("."+datatable.ctrl).alexDataTable(datatable.app, datatable.ctrl, datatable.url, datatable.view)

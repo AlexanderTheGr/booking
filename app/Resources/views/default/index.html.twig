@@ -1,14 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-
     <div id='calendar'></div>
-
-
 {% endblock %}
 
-
 {% block javascripts %}
-<script src="{{  asset('assets/js/libs/booking/scheduler.js') }}"></script>
-
+<script>$('#calendar').scheduler();</script>
 {% endblock %}

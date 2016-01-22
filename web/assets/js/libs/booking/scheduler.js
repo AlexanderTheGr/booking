@@ -7,11 +7,14 @@
             aspectRatio: 1.8,
             scrollTime: '00:00',
             schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
-            event: 'scheduler/event',
+            events: '/scheduler/events',
+            event: '/scheduler/event',
+            resources: '/scheduler/resources',
             _mainurl: '/'
         }
         var scheduler = this;
         var $dialog = {};
+
         var settings = $.extend({}, defaults, custom);
         init();
 
@@ -29,6 +32,7 @@
 
 
         function startCalendar() {
+
             scheduler.fullCalendar({
                 resourceAreaWidth: settings.resourceAreaWidth,
                 editable: settings.editable,
@@ -69,13 +73,13 @@
                 eventOverlap: false,
                 resourceLabelText: 'Rooms',
                 resources: {// you can also specify a plain string like 'json/resources.json'
-                    url: 'scheduler/resources?start='+moment(scheduler.fullCalendar('getView').start).format(settings.dateFormat)+"&end="+moment(scheduler.fullCalendar('getView').visEnd).format(settings.dateFormat),
+                    url: settings.resources+'?start=' + moment(scheduler.fullCalendar('getView').start).format(settings.dateFormat) + "&end=" + moment(scheduler.fullCalendar('getView').visEnd).format(settings.dateFormat),
                     error: function () {
                         $('#script-warning').show();
                     }
                 },
                 events: {// you can also specify a plain string like 'json/events.json'
-                    url: 'scheduler/events',
+                    url: settings.events,
                     error: function () {
                         $('#script-warning').show();
                     }
@@ -120,7 +124,7 @@
         function postEvent(event, action) {
             var data = calEvent(event);
             data.action = action;
-            $.post(settings._mainurl + settings.event, data, function (result) {
+            $.post(settings.event, data, function (result) {
                 refetchCalendar();
             })
         }
@@ -132,23 +136,23 @@
         }
         function calEvent(calEvent) {
             var data = {};
-            
+
             data.start = moment(calEvent.start).format(settings.dateFormat);
             data.end = moment(calEvent.end).format(settings.dateFormat);
-            
+
             data.end = data.end == 'Invalid date' ? data.start : data.end;
             data.id = calEvent.id;
             data.allDay = calEvent.allDay;
             data.resourceId = calEvent.resourceId;
             data.editable = calEvent.editable;
             data.title = calEvent.title;
+            data.class = calEvent.class;
             return data;
         }
     }
 
 })(jQuery);
 
-$('#calendar').scheduler();
 
 /*
  * To change this license header, choose License Headers in Project Properties.

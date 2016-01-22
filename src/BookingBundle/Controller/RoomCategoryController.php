@@ -36,9 +36,12 @@ class RoomCategoryController extends Main {
         $buttons = array();
         $content = $this->gettabs($id);
         //$content = $this->getoffcanvases($id);
+        $roomCategory = $this->getDoctrine()
+                ->getRepository("BookingBundle:RoomCategory")
+                ->find($id);
         $content = $this->content();
         return $this->render('BookingBundle:RoomCategory:view.html.twig', array(
-                    'pagename' => 'RoomCategory',
+                    'pagename' => "Room Category: ".$roomCategory->getDescription(),
                     'url' => '/roomCategory/save',
                     'buttons' => $buttons,
                     'ctrl' => $this->generateRandomString(),
@@ -78,18 +81,13 @@ class RoomCategoryController extends Main {
             $entity = new RoomCategory;
             $this->newentity[$this->repository] = $entity;
         }
+        
         $fields["title"] = array("label" => "title");
         $fields["description"] = array("label" => "Description");
-
-        $forms = $this->getFormLyFields($entity, $fields);
-        
-        
         $dtparams[] = array("name" => "ID", "index" => 'id');
         $dtparams[] = array("name" => "Name", "index" => 'description', 'search' => 'text');
         $dtparams[] = array("name" => "Number", "index" => 'number',"input" => "text", 'search' => 'text');
         $dtparams[] = array("name" => "Name", "index" => 'RoomCategory:title', 'search' => 'text');
-        
-        
         $params['dtparams'] = $dtparams;
         $params['id'] = $dtparams;
         $params['key'] = 'gettabs_' . $id;
@@ -98,16 +96,25 @@ class RoomCategoryController extends Main {
         $params["view"] = '/roomCategory/view';
         $params["app"] = 'appgettabs';
         $datatables[] = $this->contentDatatable($params);
+        $calendar["id"] = $this->generateRandomString();
+        $calendar["resources"] = '/season/resource/'.$id;
+        $calendar["events"] = '/season/events';
+        $calendar["event"] = '/season/event';
         
         
-        $this->addTab(array("title" => "General1", "form" => $forms, "content" => '', "index" => $this->generateRandomString(), 'search' => 'text', "active" => true));
+        
+        $forms = $this->getFormLyFields($entity, $fields);
+        $this->addTab(array("title" => "General", "form" => $forms, "content" => '', "index" => $this->generateRandomString(), 'search' => 'text', "active" => true));
         if ($entity->getId()) {
             $this->addTab(array("title" => "Rooms", "datatables" => $datatables, "form" => '', "content" => '', "index" => $this->generateRandomString(), 'search' => 'text', "active" => false));
+        
+            $this->addTab(array("title" => "Seasons", "form" => "", "calendar"=>$calendar, "content" => "", "index" => $this->generateRandomString(), 'search' => 'text', "active" => false));
         }
 
         $json = $this->tabs();
         return $json;
     }
+    
     
     /**
      * @Route("/roomCategory/getrooms/{id}")

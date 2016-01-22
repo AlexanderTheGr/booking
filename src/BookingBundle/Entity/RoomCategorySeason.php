@@ -2,24 +2,15 @@
 
 namespace BookingBundle\Entity;
 
+use AppBundle\Entity\Entity;
+
 /**
- * RoomCategory
+ * RoomCategorySeason
  */
-class RoomCategory {
-
-    var $repository = 'BookingBundle:RoomCategory';
+class RoomCategorySeason extends Entity {
     
-    public function getField($field) {
-        return $this->$field;
-    }
-
-    public function setField($field, $val) {
-        $this->$field = $val;
-        return $val;
-    }
-    public function getRepository() {
-        return $this->repository;
-    }
+    
+    private $repository = 'BookingBundle:RoomCategorySeason';
 
     /**
      * @var string
@@ -30,6 +21,16 @@ class RoomCategory {
      * @var integer
      */
     private $status;
+
+    /**
+     * @var \DateTime
+     */
+    private $start;
+
+    /**
+     * @var \DateTime
+     */
+    private $end;
 
     /**
      * @var \DateTime
@@ -57,11 +58,16 @@ class RoomCategory {
     private $actioneer;
 
     /**
+     * @var \BookingBundle\Entity\RoomCategory
+     */
+    protected $RoomCategory;
+
+    /**
      * Set description
      *
      * @param string $description
      *
-     * @return RoomCategory
+     * @return RoomCategorySeason
      */
     public function setDescription($description) {
         $this->description = $description;
@@ -83,7 +89,7 @@ class RoomCategory {
      *
      * @param integer $status
      *
-     * @return RoomCategory
+     * @return RoomCategorySeason
      */
     public function setStatus($status) {
         $this->status = $status;
@@ -101,11 +107,55 @@ class RoomCategory {
     }
 
     /**
+     * Set start
+     *
+     * @param \DateTime $start
+     *
+     * @return RoomCategorySeason
+     */
+    public function setStart($start) {
+        $this->start = $start;
+
+        return $this;
+    }
+
+    /**
+     * Get start
+     *
+     * @return \DateTime
+     */
+    public function getStart() {
+        return $this->start;
+    }
+
+    /**
+     * Set end
+     *
+     * @param \DateTime $end
+     *
+     * @return RoomCategorySeason
+     */
+    public function setEnd($end) {
+        $this->end = $end;
+
+        return $this;
+    }
+
+    /**
+     * Get end
+     *
+     * @return \DateTime
+     */
+    public function getEnd() {
+        return $this->end;
+    }
+
+    /**
      * Set ts
      *
      * @param \DateTime $ts
      *
-     * @return RoomCategory
+     * @return RoomCategorySeason
      */
     public function setTs($ts) {
         $this->ts = $ts;
@@ -127,7 +177,7 @@ class RoomCategory {
      *
      * @param \DateTime $created
      *
-     * @return RoomCategory
+     * @return RoomCategorySeason
      */
     public function setCreated($created) {
         $this->created = $created;
@@ -149,7 +199,7 @@ class RoomCategory {
      *
      * @param \DateTime $modified
      *
-     * @return RoomCategory
+     * @return RoomCategorySeason
      */
     public function setModified($modified) {
         $this->modified = $modified;
@@ -180,7 +230,7 @@ class RoomCategory {
      *
      * @param \AppBundle\Entity\User $actioneer
      *
-     * @return RoomCategory
+     * @return RoomCategorySeason
      */
     public function setActioneer(\AppBundle\Entity\User $actioneer = null) {
         $this->actioneer = $actioneer;
@@ -198,120 +248,52 @@ class RoomCategory {
     }
 
     /**
-     * @var string
-     */
-    private $title;
-
-    /**
-     * Set title
+     * Set roomCategory
      *
-     * @param string $title
+     * @param \BookingBundle\Entity\RoomCategory $roomCategory
      *
-     * @return RoomCategory
+     * @return RoomCategorySeason
      */
-    public function setTitle($title) {
-        $this->title = $title;
+    public function setRoomCategory(\BookingBundle\Entity\RoomCategory $roomCategory = null) {
+        $this->RoomCategory = $roomCategory;
 
         return $this;
     }
 
     /**
-     * Get title
+     * Get roomCategory
+     *
+     * @return \BookingBundle\Entity\RoomCategory
+     */
+    public function getRoomCategory() {
+        return $this->RoomCategory;
+    }
+
+    /**
+     * @var string
+     */
+    private $value;
+
+    /**
+     * Set value
+     *
+     * @param string $value
+     *
+     * @return RoomCategorySeason
+     */
+    public function setValue($value) {
+        $this->value = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get value
      *
      * @return string
      */
-    public function getTitle() {
-        return $this->title;
+    public function getValue() {
+        return $this->value;
     }
 
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $rooms;
-
-    /**
-     * Constructor
-     */
-    public function __construct() {
-        $this->rooms = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->seasons = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
-     * Add room
-     *
-     * @param \BookingBundle\Entity\Room $room
-     *
-     * @return RoomCategory
-     */
-    public function addRoom(\BookingBundle\Entity\Room $room) {
-        $this->rooms[] = $room;
-
-        return $this;
-    }
-
-    /**
-     * Remove room
-     *
-     * @param \BookingBundle\Entity\Room $room
-     */
-    public function removeRoom(\BookingBundle\Entity\Room $room) {
-        $this->rooms->removeElement($room);
-    }
-
-    /**
-     * Get rooms
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getRooms() {
-        return $this->rooms;
-    }
-    public function getRoomIds() {
-        $ids = array();
-        foreach ($this->rooms as $room) {
-            $ids[] = $room->getId();
-        }
-        return $ids;
-    }    
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $seasons;
-
-
-    /**
-     * Add season
-     *
-     * @param \BookingBundle\Entity\RoomCategorySeason $season
-     *
-     * @return RoomCategory
-     */
-    public function addSeason(\BookingBundle\Entity\RoomCategorySeason $season)
-    {
-        $this->seasons[] = $season;
-
-        return $this;
-    }
-
-    /**
-     * Remove season
-     *
-     * @param \BookingBundle\Entity\RoomCategorySeason $season
-     */
-    public function removeSeason(\BookingBundle\Entity\RoomCategorySeason $season)
-    {
-        $this->seasons->removeElement($season);
-    }
-
-    /**
-     * Get seasons
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getSeasons()
-    {
-        return $this->seasons;
-    }
 }

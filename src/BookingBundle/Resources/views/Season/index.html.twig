@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div id='calendar'></div>
+{% endblock %}
+
+{% block javascripts %}
+<script>
+    $('#calendar').scheduler(
+    resources:'/season/resources/',  
+    events:'/season/events/',  
+    event:'/season/event/',  
+    );</script>
+{% endblock %}

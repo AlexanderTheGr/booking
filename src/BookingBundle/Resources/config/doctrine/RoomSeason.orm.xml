@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
-    <entity name="BookingBundle\Entity\Room" repository-class="BookingBundle\Entity\RoomRepository"  table="booking_room">
+    <entity name="BookingBundle\Entity\RoomSeason" repository-class="BookingBundle\Entity\RoomSeasonRepository"  table="booking_room_season">
         <id name="id" type="integer" column="id">
             <generator strategy="IDENTITY"/>
         </id>
@@ -10,22 +10,27 @@
             </options>
         </field>
         
-        <field name="number" type="integer" column="number" nullable="false">
+        <field name="value" scale="2" type="decimal" column="value" nullable="false">
             <options>
                 <option name="fixed"/>
+                <option scale="2"/>
             </options>
-        </field> 
+        </field>
                 
         <field name="status" type="integer" column="status" nullable="false">
             <options>
                 <option name="fixed"/>
             </options>
-        </field>   
+        </field>
+        <field name="start" type="datetime" column="start" nullable="false"/>   
+        <field name="end" type="datetime" column="end" nullable="false"/>
+                 
         <field name="ts" type="datetime" column="ts" nullable="false">
             <options>
                 <option name="default">CURRENT_TIMESTAMP</option>
             </options>
         </field>
+        
         <field name="created" type="datetime" column="created" nullable="false"/>
         <field name="modified" type="datetime" column="modified" nullable="false"/>
         <many-to-one
@@ -36,13 +41,11 @@
             <join-column name="actioneer" referenced-column-name="id" />
         </many-to-one> 
         <many-to-one
-            field="RoomCategory"
-            target-entity="BookingBundle\Entity\RoomCategory"
-            inversed-by="Rooms"
-            join-column="category">
-            <join-column name="category" referenced-column-name="id" />
-        </many-to-one>   
-        <one-to-many field="schedulers" target-entity="Scheduler" mapped-by="Room" /> 
-        <one-to-many field="seasons" target-entity="RoomSeason" mapped-by="Room" />       
+            field="Room"
+            target-entity="BookingBundle\Entity\Room"
+            inversed-by="RoomCategories"
+            join-column="room">
+            <join-column name="room" referenced-column-name="id" />
+        </many-to-one>                 
     </entity>
 </doctrine-mapping>
