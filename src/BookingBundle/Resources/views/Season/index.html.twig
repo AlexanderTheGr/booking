@@ -6,9 +6,11 @@
 
 {% block javascripts %}
 <script>
+ 
     $('#calendar').scheduler(
     resources:'/season/resources/',  
     events:'/season/events/',  
-    event:'/season/event/',  
+    event:'/season/event/',
+    eventClick:'foo()'
     );</script>
 {% endblock %}

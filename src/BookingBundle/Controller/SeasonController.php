@@ -15,9 +15,7 @@ class SeasonController extends Main {
 
     var $repository = 'BookingBundle:RoomCategorySeason';
     var $newentity = '';
-    
-    
-    
+
     /**
      * @Route("/room/room")
      */
@@ -30,7 +28,7 @@ class SeasonController extends Main {
                     'app' => $this->generateRandomString(),
                     'base_dir' => realpath($this->container->getParameter('kernel.root_dir') . '/..'),
         ));
-    }    
+    }
 
     /**
      * @Route("/season/events")
@@ -68,7 +66,7 @@ class SeasonController extends Main {
             }
             $go = true;
             if ($go) {
-                $json["id"] ="RoomCategory-". $season->getId();
+                $json["id"] = "RoomCategory-" . $season->getId();
                 $json["resourceId"] = "RoomCategory-" . $season->getRoomCategory()->getId();
                 $json["start"] = $season->getStart()->format('Y-m-d');
                 $json["end"] = $season->getEnd()->format('Y-m-d');
@@ -94,7 +92,7 @@ class SeasonController extends Main {
                 $go = false;
             }
             if ($go) {
-                $json["id"] = "Room-".$season->getId();
+                $json["id"] = "Room-" . $season->getId();
                 $json["resourceId"] = "Room-" . $season->getRoom()->getId();
                 $json["start"] = $season->getStart()->format('Y-m-d');
                 $json["end"] = $season->getEnd()->format('Y-m-d');
@@ -184,6 +182,43 @@ class SeasonController extends Main {
     }
 
     /**
+     * @Route("/season/eventEdit")
+     * 
+     */
+    public function eventEditAction() {
+
+        $buttons = array();
+        $content = $this->gettabs(0);
+        //$content = $this->getoffcanvases($id);
+        //$content = $this->content();
+
+        return $this->render('BookingBundle:Season:view.html.twig', array(
+                    'pagename' => 'Room',
+                    'url' => '/room/save',
+                    'buttons' => $buttons,
+                    'ctrl' => $this->generateRandomString(),
+                    'app' => $this->generateRandomString(),
+                    'content' => $content,
+                    'base_dir' => realpath($this->container->getParameter('kernel.root_dir') . '/..'),
+        ));
+    }
+
+    public function gettabs($id=0) {
+        $entity = $this->getDoctrine()
+                ->getRepository($this->repository)
+                ->find($id);
+        if ($id == 0 AND @ $entity->id == 0) {
+            $entity = new RoomCategorySeason;
+            $this->newentity[$this->repository] = $entity;
+        }
+        $fields["description"] = array("label" => "Value");
+        $forms = $this->getFormLyFields($entity, $fields);
+        $this->addTab(array("title" => "General", "form" => $forms, "content" => '', "index" => $this->generateRandomString(), 'search' => 'text', "active" => true));
+        $json = $this->tabs();
+        return $json;
+    }
+
+    /**
      * @Route("/season/event")
      * 
      */
@@ -214,10 +249,10 @@ class SeasonController extends Main {
 
 
         $res = explode("-", $request->request->get("id"));
-        
+
         $entity = $this->getDoctrine()
                 ->getRepository($this->repository)
-                ->find((int)@$res[1]);
+                ->find((int) @$res[1]);
 
         if (@$res[1] == 0 AND @ $entity->id == 0) {
             $dt = new \DateTime("now");
@@ -226,8 +261,8 @@ class SeasonController extends Main {
                 $entity = new RoomSeason;
             if ($en == 'RoomCategorySeason')
                 $entity = new RoomCategorySeason;
-            
-            
+
+
             $entity->setValue(0);
             $entity->setTs($dt);
             $entity->setCreated($dt);

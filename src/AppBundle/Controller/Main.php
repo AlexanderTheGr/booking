@@ -299,7 +299,18 @@ class Main extends Controller {
                     'base_dir' => realpath($this->container->getParameter('kernel.root_dir') . '/..'),
         ));
     }
-
+    public function contentjsonAction($ctrl, $app, $url, $content) {
+        return $this->render('elements/contentjson.twig', array(
+                    'pagename' => '',
+                    'url' => $url,
+                    'ctrl' => $ctrl,
+                    'app' => $app,
+                    'content' => $content,
+                    'type' => '',
+                    'base_dir' => realpath($this->container->getParameter('kernel.root_dir') . '/..'),
+        ));
+    }
+    
     public function contentAction($ctrl, $app, $url, $content) {
 
 
@@ -400,8 +411,9 @@ class Main extends Controller {
         $em->flush();
     }
 
-    function getFormLyFields($entity, $fields) {
+    function getFormLyFields($entity, $fields,$id = '') {
         $forms["model"] = array();
+        $forms["id"] = $id;
         $em = $this->getDoctrine()->getManager();
         foreach ($fields as $field => $options) {
             @$options["type"] = $options["type"] ? $options["type"] : "input";

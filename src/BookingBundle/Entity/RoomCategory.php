@@ -2,13 +2,25 @@
 
 namespace BookingBundle\Entity;
 
+use AppBundle\Entity\Entity;
 /**
  * RoomCategory
  */
-class RoomCategory {
+class RoomCategory extends Entity  {
 
-    var $repository = 'BookingBundle:RoomCategory';
-    
+
+    private $repository = 'BookingBundle:RoomCategory';
+    private $types = array();
+    private $repositories = array();
+
+    public function __construct() {
+        //$this->repositories['RoomCategory'] = 'BookingBundle:RoomCategory';
+        //$this->types['RoomCategory'] = 'object';
+        //$this->RoomCategory = new \BookingBundle\Entity\RoomCategory;
+        $this->rooms = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->seasons = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
     public function getField($field) {
         return $this->$field;
     }
@@ -17,10 +29,21 @@ class RoomCategory {
         $this->$field = $val;
         return $val;
     }
+
     public function getRepository() {
         return $this->repository;
     }
 
+    public function gettype($field) {
+        //return;
+        if (@$this->types[$field] != '') {
+            return @$this->types[$field];
+        }
+        if (gettype($field) != NULL) {
+            return gettype($this->$field);
+        }
+        return 'string';
+    }
     /**
      * @var string
      */
@@ -229,13 +252,7 @@ class RoomCategory {
      */
     private $rooms;
 
-    /**
-     * Constructor
-     */
-    public function __construct() {
-        $this->rooms = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->seasons = new \Doctrine\Common\Collections\ArrayCollection();
-    }
+
 
     /**
      * Add room

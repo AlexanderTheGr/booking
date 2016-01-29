@@ -10,6 +10,7 @@
             events: '/scheduler/events',
             event: '/scheduler/event',
             resources: '/scheduler/resources',
+            eventClick: '',
             _mainurl: '/'
         }
         var scheduler = this;
@@ -73,7 +74,7 @@
                 eventOverlap: false,
                 resourceLabelText: 'Rooms',
                 resources: {// you can also specify a plain string like 'json/resources.json'
-                    url: settings.resources+'?start=' + moment(scheduler.fullCalendar('getView').start).format(settings.dateFormat) + "&end=" + moment(scheduler.fullCalendar('getView').visEnd).format(settings.dateFormat),
+                    url: settings.resources + '?start=' + moment(scheduler.fullCalendar('getView').start).format(settings.dateFormat) + "&end=" + moment(scheduler.fullCalendar('getView').visEnd).format(settings.dateFormat),
                     error: function () {
                         $('#script-warning').show();
                     }
@@ -103,7 +104,13 @@
                     //postEvent(event, 'eventResizeStop');
                 },
                 eventClick: function (event, jsEvent, ui, view) {
-                    postEvent(event, 'eventClick');
+                    //postEvent(event, 'eventClick');
+                    var data = calEvent(event);
+                    $.post('/season/eventEdit', data, function (result) {
+                        $dialog.scheduler.dialog("close");
+                        $dialog.scheduler.dialog("open");
+                        $dialog.scheduler.html(result);
+                    })
                 },
                 dayClick: function (date, jsEvent, view, resourceObj) {
                     var event = {};
@@ -121,6 +128,7 @@
                 },
             });
         }
+
         function postEvent(event, action) {
             var data = calEvent(event);
             data.action = action;

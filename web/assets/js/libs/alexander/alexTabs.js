@@ -87,6 +87,7 @@ var dt_tables = [];
                         resources:r.calendar.resources,
                         events:r.calendar.events,
                         event:r.calendar.event,
+                        eventClick:r.calendar.eventClick,
                     });
                 }
                 

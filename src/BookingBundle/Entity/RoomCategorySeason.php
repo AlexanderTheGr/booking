@@ -15,7 +15,7 @@ class RoomCategorySeason extends Entity {
     /**
      * @var string
      */
-    private $description;
+    var $description;
 
     /**
      * @var integer

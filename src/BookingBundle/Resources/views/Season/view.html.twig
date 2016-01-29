@@ -1,0 +1,13 @@
+
+{% block body %}
+{{ render(controller('BookingBundle:Season:contentjson', { 'ctrl': ctrl,'app':app,'url':url,'content':content }) ) }}
+{% endblock %}
+{% block stylesheets %}
+{% endblock %}
+{% block javascripts %}
+
+<script>
+    $(".{{ctrl}}").alexTabs("{{app}}", "{{ctrl}}", "{{url}}","{{content|json_encode()}}");
+</script>
+
+{% endblock %}
