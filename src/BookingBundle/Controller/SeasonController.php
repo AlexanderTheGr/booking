@@ -70,7 +70,7 @@ class SeasonController extends Main {
                 $json["resourceId"] = "RoomCategory-" . $season->getRoomCategory()->getId();
                 $json["start"] = $season->getStart()->format('Y-m-d');
                 $json["end"] = $season->getEnd()->format('Y-m-d');
-                $json["title"] = $season->getId(); // $season->getDescription();
+                $json["title"] = $season->getValue() . " (" . $season->getDescription() . ")";
                 $json["overlap"] = true;
                 $json["overlap"] = false;
                 $json["editable"] = true;
@@ -96,7 +96,7 @@ class SeasonController extends Main {
                 $json["resourceId"] = "Room-" . $season->getRoom()->getId();
                 $json["start"] = $season->getStart()->format('Y-m-d');
                 $json["end"] = $season->getEnd()->format('Y-m-d');
-                $json["title"] = $season->getId(); // $season->getDescription();
+                $json["title"] = $season->getValue() . " (" . $season->getDescription() . ")";
                 $json["overlap"] = true;
                 $json["overlap"] = false;
                 $json["editable"] = true;
@@ -187,31 +187,56 @@ class SeasonController extends Main {
      */
     public function eventEditAction() {
 
-        $buttons = array();
-        $content = $this->gettabs(0);
-        //$content = $this->getoffcanvases($id);
-        //$content = $this->content();
+        $request = Request::createFromGlobals();
+        $start = $request->request->get("start");
+        $end = $request->request->get("end");
+        if ($start == $end) {
+            $end = date("Y-m-d", (strtotime($end) + 86400));
+        }
 
-        return $this->render('BookingBundle:Season:view.html.twig', array(
-                    'pagename' => 'Room',
-                    'url' => '/room/save',
-                    'buttons' => $buttons,
-                    'ctrl' => $this->generateRandomString(),
-                    'app' => $this->generateRandomString(),
-                    'content' => $content,
-                    'base_dir' => realpath($this->container->getParameter('kernel.root_dir') . '/..'),
-        ));
-    }
 
-    public function gettabs($id=0) {
+        $resource = explode("-", $request->request->get("resourceId"));
+        if ($resource[1] == 0)
+            return;
+
+        $sr = $resource[0];
+        if ($request->request->get("class") != '' AND $sr != $request->request->get("class")) {
+            $out = '[]';
+            return new Response(
+                    $out, 200, array('Content-Type' => 'application/json')
+            );
+        }
+
+        $this->repository = 'BookingBundle:' . $sr . 'Season';
+        //$setSt = "set".$sr;
+
+        $res = explode("-", $request->request->get("id"));
+        $id = @$res[1];
         $entity = $this->getDoctrine()
                 ->getRepository($this->repository)
                 ->find($id);
         if ($id == 0 AND @ $entity->id == 0) {
-            $entity = new RoomCategorySeason;
+            $entity = new RoomCategory;
             $this->newentity[$this->repository] = $entity;
         }
-        $fields["description"] = array("label" => "Value");
+        $fields["description"] = array("label" => "Description");
+        $fields["value"] = array("label" => "Price");
+        $forms = $this->getDFormFields($entity, $fields);
+        $out = '[]';
+        return new Response(
+                json_encode($forms), 200, array('Content-Type' => 'application/json')
+        );
+    }
+
+    public function gettabs($id = 0) {
+        $entity = $this->getDoctrine()
+                ->getRepository($this->repository)
+                ->find($id);
+        if ($id == 0 AND @ $entity->id == 0) {
+            $entity = new RoomCategory;
+            $this->newentity[$this->repository] = $entity;
+        }
+        $fields["value"] = array("label" => "Value");
         $forms = $this->getFormLyFields($entity, $fields);
         $this->addTab(array("title" => "General", "form" => $forms, "content" => '', "index" => $this->generateRandomString(), 'search' => 'text', "active" => true));
         $json = $this->tabs();
@@ -254,6 +279,7 @@ class SeasonController extends Main {
                 ->getRepository($this->repository)
                 ->find((int) @$res[1]);
 
+
         if (@$res[1] == 0 AND @ $entity->id == 0) {
             $dt = new \DateTime("now");
             $en = $sr . 'Season';
@@ -270,7 +296,12 @@ class SeasonController extends Main {
             $entity->setStatus(1);
             $entity->setStart(new \DateTime($start));
             $entity->setEnd(new \DateTime($end));
-            $entity->setDescription($request->request->get("title"));
+
+            if ($request->request->get($this->repository . ":description"))
+                $entity->setDescription($request->request->get($this->repository . ":description"));
+            if ($request->request->get($this->repository . ":value"))
+                $entity->setValue($request->request->get($this->repository . ":value"));
+
             $entity = $this->flushpersist($entity);
         }
         $obj = $this->getDoctrine()
@@ -284,6 +315,10 @@ class SeasonController extends Main {
         };
         $entity->setStart(new \DateTime($start));
         $entity->setEnd(new \DateTime($end));
+        if ($request->request->get($this->repository . ":description"))
+            $entity->setDescription($request->request->get($this->repository . ":description"));
+        if ($request->request->get($this->repository . ":value"))
+            $entity->setValue($request->request->get($this->repository . ":value"));
         $entity->setField($sr, $obj);
         $out = '[' . $obj->getId() . ']';
         $this->flushpersist($entity);

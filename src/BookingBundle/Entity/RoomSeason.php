@@ -11,52 +11,52 @@ class RoomSeason extends Entity {
     /**
      * @var string
      */
-    private $description;
+    protected $description;
 
     /**
      * @var string
      */
-    private $value;
+    protected $value;
 
     /**
      * @var integer
      */
-    private $status;
+    protected $status;
 
     /**
      * @var \DateTime
      */
-    private $start;
+    protected $start;
 
     /**
      * @var \DateTime
      */
-    private $end;
+    protected $end;
 
     /**
      * @var \DateTime
      */
-    private $ts = 'CURRENT_TIMESTAMP';
+    protected $ts = 'CURRENT_TIMESTAMP';
 
     /**
      * @var \DateTime
      */
-    private $created;
+    protected $created;
 
     /**
      * @var \DateTime
      */
-    private $modified;
+    protected $modified;
 
     /**
      * @var integer
      */
-    private $id;
+    protected $id;
 
     /**
      * @var \AppBundle\Entity\User
      */
-    private $actioneer;
+    protected $actioneer;
 
     /**
      * @var \BookingBundle\Entity\Room

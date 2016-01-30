@@ -13,52 +13,52 @@ class RoomCategorySeason extends Entity {
     private $repository = 'BookingBundle:RoomCategorySeason';
 
     /**
-     * @var string
+     * @protected string
      */
-    var $description;
+    protected $description;
 
     /**
-     * @var integer
+     * @protected integer
      */
     private $status;
 
     /**
-     * @var \DateTime
+     * @protected \DateTime
      */
     private $start;
 
     /**
-     * @var \DateTime
+     * @protected \DateTime
      */
     private $end;
 
     /**
-     * @var \DateTime
+     * @protected \DateTime
      */
     private $ts = 'CURRENT_TIMESTAMP';
 
     /**
-     * @var \DateTime
+     * @protected \DateTime
      */
     private $created;
 
     /**
-     * @var \DateTime
+     * @protected \DateTime
      */
     private $modified;
 
     /**
-     * @var integer
+     * @protected integer
      */
-    private $id;
+    protected $id;
 
     /**
-     * @var \AppBundle\Entity\User
+     * @protected \AppBundle\Entity\User
      */
     private $actioneer;
 
     /**
-     * @var \BookingBundle\Entity\RoomCategory
+     * @protected \BookingBundle\Entity\RoomCategory
      */
     protected $RoomCategory;
 
@@ -270,9 +270,9 @@ class RoomCategorySeason extends Entity {
     }
 
     /**
-     * @var string
+     * @protected string
      */
-    private $value;
+    protected $value;
 
     /**
      * Set value

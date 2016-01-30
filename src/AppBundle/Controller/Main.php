@@ -299,6 +299,7 @@ class Main extends Controller {
                     'base_dir' => realpath($this->container->getParameter('kernel.root_dir') . '/..'),
         ));
     }
+
     public function contentjsonAction($ctrl, $app, $url, $content) {
         return $this->render('elements/contentjson.twig', array(
                     'pagename' => '',
@@ -310,7 +311,7 @@ class Main extends Controller {
                     'base_dir' => realpath($this->container->getParameter('kernel.root_dir') . '/..'),
         ));
     }
-    
+
     public function contentAction($ctrl, $app, $url, $content) {
 
 
@@ -411,7 +412,38 @@ class Main extends Controller {
         $em->flush();
     }
 
-    function getFormLyFields($entity, $fields,$id = '') {
+    function getDFormFields($entity, $fields, $id = '') {
+
+        $forms["type"] = 'div';
+        foreach ($fields as $field => $options) {
+            $formsint = array();
+            $formsint["type"] = 'div';
+            $formsint["class"] = 'form-group';
+            @$options["type"] = $options["type"] ? $options["type"] : "input";
+            if ($options["type"] == 'select') {
+                @$options["required"] = $options["required"] ? $options["required"] : true;
+                $datasource = $options["datasource"];
+                $results = $em->getRepository($datasource["repository"])->findAll();
+                $seloptions = array();
+                foreach (@(array) $results as $data) {
+                    $seloptions[] = array("name" => $data->getField($datasource['name']) . "(" . $data->getField($datasource['value']) . ")", "value" => $data->getField($datasource['value']));
+                }
+
+                //$forms["html"][] = array("id" => $this->repository, "id" => $this->repository . ":" . $field . ":" . $entity->getId());
+                //$forms["html"][] = array("key" => $field, "id" => $this->repository . ":" . $field . ":" . $entity->getId(), 'defaultValue' => $entity->getField($field)->getId(), "type" => "select", "templateOptions" => array("type" => '', 'options' => $seloptions, 'defaultOptions' => array("value" => $entity->getField($field)->getId()), "label" => $options["label"], "required" => $options["required"]));
+            } else {
+                $formsint["html"][] = array('class' => 'form-control', "value" => $entity->getField($field), "caption" => $options["label"], "name" => $this->repository. ":" . $field, "id" => $this->repository . ":" . $field . ":" . $entity->getId(), 'type' => 'text');
+
+                //@$options["required"] = $options["required"] ? $options["required"] : true;
+                //$forms["html"][] = array("key" => $field, "id" => $this->repository . ":" . $field . ":" . $entity->getId(), "defaultValue" => $entity->getField($field), "type" => "input", "templateOptions" => array("type" => '', "label" => $options["label"], "required" => $options["required"]));
+            }
+            $forms["html"][] = $formsint;
+        }
+
+        return $forms;
+    }
+
+    function getFormLyFields($entity, $fields, $id = '') {
         $forms["model"] = array();
         $forms["id"] = $id;
         $em = $this->getDoctrine()->getManager();

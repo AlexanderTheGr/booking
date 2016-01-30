@@ -52,7 +52,6 @@ var dt_tables = [];
                 }
 
                 setTimeout(function () {
-
                     forEach(vm.tabs)
                     forEach(vm.offcanvases)
                 }, 30)

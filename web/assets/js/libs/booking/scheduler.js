@@ -107,9 +107,30 @@
                     //postEvent(event, 'eventClick');
                     var data = calEvent(event);
                     $.post('/season/eventEdit', data, function (result) {
+                        $dialog.scheduler.dialog({
+                            width: 300,
+                            buttons: {
+                                "Save": function () {
+                                    $(".ui-dform-text").each(function () {
+                                        data[$(this).attr('name')] = $(this).val();
+                                    })
+                                    $.post('/season/event', data, function (result) {
+                                        $dialog.scheduler.dialog("close");
+                                        refetchCalendar();
+                                    })
+                                },
+                                "Delete": function () {
+                                    $(this).dialog("close");
+                                },
+                                Cancel: function () {
+                                    $(this).dialog("close");
+                                }
+                            }
+                        });
                         $dialog.scheduler.dialog("close");
                         $dialog.scheduler.dialog("open");
-                        $dialog.scheduler.html(result);
+                        $dialog.scheduler.html('<form class="form" id="myform"></form>');
+                        $("#myform").dform(result);
                     })
                 },
                 dayClick: function (date, jsEvent, view, resourceObj) {
