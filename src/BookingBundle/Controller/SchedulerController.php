@@ -34,8 +34,8 @@ class SchedulerController extends Main {
 
         $startTime = strtotime($request->query->get("start"));
         $endTime = strtotime($request->query->get("end"));
-        
-        
+
+
         $em = $this->getDoctrine()->getManager();
         $results = $em->getRepository('BookingBundle:RoomCategory')->findAll();
         $jsonarr = array();
@@ -60,8 +60,8 @@ class SchedulerController extends Main {
                 } else {
                     $backgroundColor = "#ff8000";
                 }
-                
-                
+
+
                 $json["id"] = "A" . $roomCategory->getId() . $i;
                 $json["resourceId"] = "RC-" . $roomCategory->getId();
                 $json["start"] = $thisDate;
@@ -85,14 +85,13 @@ class SchedulerController extends Main {
                 $json["draggable"] = false;
                 $json["backgroundColor"] = '#af8000';
                 $jsonarr[] = $json;
-                
             }
         }
 
         $results = $em->getRepository('BookingBundle:Scheduler')->findAll();
         foreach (@(array) $results as $scheduler) {
             $json = array();
-            
+
             $start = strtotime($scheduler->getStart()->format('Y-m-d'));
             $end = strtotime($scheduler->getEnd()->format('Y-m-d'));
             $go = true;
@@ -101,7 +100,7 @@ class SchedulerController extends Main {
             }
             if ($endTime <= $start AND $endTime <= $end) {
                 $go = false;
-            }            
+            }
             if ($go) {
                 $json["id"] = $scheduler->getId();
                 $json["resourceId"] = $scheduler->getRoom()->getRoomCategory()->getId() . "-" . $scheduler->getRoom()->getId();
@@ -113,7 +112,6 @@ class SchedulerController extends Main {
                 $json["editable"] = true;
                 $jsonarr[] = $json;
             }
-            
         }
 
 
@@ -162,20 +160,21 @@ class SchedulerController extends Main {
     public function eventAction() {
 
         $request = Request::createFromGlobals();
-        $resource = explode("-",$request->request->get("resourceId"));   
-        if ($resource[1] == 0) return;
-             
+        $resource = explode("-", $request->request->get("resourceId"));
+        if ($resource[1] == 0)
+            return;
+
         $entity = $this->getDoctrine()
                 ->getRepository($this->repository)
                 ->find($request->request->get("id"));
 
         $start = $request->request->get("start");
         $end = $request->request->get("end");
-        
+
         if ($start == $end) {
-            $end = date("Y-m-d",(strtotime($end)+86400));
+            $end = date("Y-m-d", (strtotime($end) + 86400));
         }
-        
+
         if ($request->request->get("id") == 0 AND @ $entity->id == 0) {
             $dt = new \DateTime("now");
             $entity = new Scheduler;
@@ -192,7 +191,8 @@ class SchedulerController extends Main {
         $room = $this->getDoctrine()
                 ->getRepository('BookingBundle:Room')
                 ->find($resource[1]);
-
+        if ($request->request->get($this->repository . ":description"))
+            $entity->setDescription($request->request->get($this->repository . ":description"));
         $entity->setStart(new \DateTime($start));
         $entity->setEnd(new \DateTime($end));
         $entity->setRoom($room);
@@ -202,6 +202,47 @@ class SchedulerController extends Main {
         $out = '[]';
         return new Response(
                 $out, 200, array('Content-Type' => 'application/json')
+        );
+    }
+
+    /**
+     * @Route("/scheduler/eventEdit")
+     * 
+     */
+    public function eventEditAction() {
+
+        $request = Request::createFromGlobals();
+        $id = $request->request->get("id");
+        $start = $request->request->get("start");
+        $end = $request->request->get("end");
+        if ($start == $end) {
+            $end = date("Y-m-d", (strtotime($end) + 86400));
+        }
+
+
+        if ($request->request->get("class") != '' AND $sr != $request->request->get("class")) {
+            $out = '[]';
+            return new Response(
+                    $out, 200, array('Content-Type' => 'application/json')
+            );
+        }
+
+        $entity = $this->getDoctrine()
+                ->getRepository($this->repository)
+                ->find($id);
+
+        if ($id == 0 AND @ $entity->id == 0) {
+            $entity = new Scheduler;
+            $this->newentity[$this->repository] = $entity;
+        }
+        $fields["description"] = array("label" => "Description");
+        $fields["start"] = array("label" => "Start", 'class'=>'datepicker');
+        $fields["end"] = array("label" => "End", 'class'=>'datepicker');
+        // $fields["value"] = array("label" => "Price");
+        $forms = $this->getDFormFields($entity, $fields);
+        $out = '[]';
+        return new Response(
+                json_encode($forms), 200, array('Content-Type' => 'application/json')
         );
     }
 

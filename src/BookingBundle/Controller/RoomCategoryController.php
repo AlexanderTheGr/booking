@@ -100,7 +100,9 @@ class RoomCategoryController extends Main {
         $calendar["resources"] = '/season/resource/' . $id;
         $calendar["events"] = '/season/events';
         $calendar["event"] = '/season/event';
-        $calendar["eventClick"] = "asd()";
+        
+        $calendar["eventClick"] = "eventClickSeason";
+        $calendar["dayClick"] = "dayClickSeason";
 
 
 
@@ -109,7 +111,6 @@ class RoomCategoryController extends Main {
         $this->addTab(array("title" => "General", "form" => $forms, "content" => '', "index" => $this->generateRandomString(), 'search' => 'text', "active" => true));
         if ($entity->getId()) {
             $this->addTab(array("title" => "Rooms", "datatables" => $datatables, "form" => '', "content" => '', "index" => $this->generateRandomString(), 'search' => 'text', "active" => false));
-
             $this->addTab(array("title" => "Seasons", "form" => '', "calendar" => $calendar, "content" => "", "index" => $this->generateRandomString(), 'search' => 'text', "active" => false));
         }
 

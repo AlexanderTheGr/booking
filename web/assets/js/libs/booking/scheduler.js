@@ -10,7 +10,8 @@
             events: '/scheduler/events',
             event: '/scheduler/event',
             resources: '/scheduler/resources',
-            eventClick: '',
+            eventClick: 'eventClick',
+            dayClick: 'dayClick',
             _mainurl: '/'
         }
         var scheduler = this;
@@ -104,50 +105,163 @@
                     //postEvent(event, 'eventResizeStop');
                 },
                 eventClick: function (event, jsEvent, ui, view) {
-                    //postEvent(event, 'eventClick');
-                    var data = calEvent(event);
-                    $.post('/season/eventEdit', data, function (result) {
-                        $dialog.scheduler.dialog({
-                            width: 300,
-                            buttons: {
-                                "Save": function () {
-                                    $(".ui-dform-text").each(function () {
-                                        data[$(this).attr('name')] = $(this).val();
-                                    })
-                                    $.post('/season/event', data, function (result) {
-                                        $dialog.scheduler.dialog("close");
-                                        refetchCalendar();
-                                    })
-                                },
-                                "Delete": function () {
-                                    $(this).dialog("close");
-                                },
-                                Cancel: function () {
-                                    $(this).dialog("close");
-                                }
-                            }
-                        });
-                        $dialog.scheduler.dialog("close");
-                        $dialog.scheduler.dialog("open");
-                        $dialog.scheduler.html('<form class="form" id="myform"></form>');
-                        $("#myform").dform(result);
-                    })
+                    if (settings.eventClick == 'eventClickSeason')
+                        eventClickSeason(event, jsEvent, ui, view)
+                    if (settings.eventClick == 'eventClick')
+                        eventClick(event, jsEvent, ui, view)
                 },
                 dayClick: function (date, jsEvent, view, resourceObj) {
-                    var event = {};
-                    var title;
-                    if (title = prompt('Room name')) {
-                        event.start = moment(date).format(settings.dateFormat);
-                        event.end = moment(date).format(settings.dateFormat);
-                        event.id = 0;
-                        event.allDay = true;
-                        event.title = title;
-                        event.resourceId = resourceObj.id;
-                        event.editable = true;
-                        postEvent(event, 'dayClick');
-                    }
+                    if (settings.dayClick == 'dayClickSeason')
+                        dayClickSeason(date, jsEvent, view, resourceObj)
+                    if (settings.dayClick == 'dayClick')
+                        dayClick(date, jsEvent, view, resourceObj)
                 },
             });
+        }
+
+
+        function eventClick(event, jsEvent, ui, view) {
+            var data = calEvent(event);
+            $.post('/scheduler/eventEdit', data, function (result) {
+                $dialog.scheduler.dialog({
+                    width: 300,
+                    title: event.title,
+                    buttons: {
+                        "Save": function () {
+                            $(".ui-dform-text").each(function () {
+                                data[$(this).attr('name')] = $(this).val();
+                            })
+                            $.post('/scheduler/event', data, function (result) {
+                                $dialog.scheduler.dialog("close");
+                                refetchCalendar();
+                            })
+                        },
+                        "Delete": function () {
+                            $(this).dialog("close");
+                        },
+                        Cancel: function () {
+                            $(this).dialog("close");
+                        }
+                    }
+                });
+                $dialog.scheduler.dialog("close");
+                $dialog.scheduler.dialog("open");
+                $dialog.scheduler.html('<form class="form" id="myform"></form>');
+                $("#myform").dform(result);
+            })
+        }
+
+
+        function dayClick(date, jsEvent, view, resourceObj) {
+            var event = {};
+            event.start = moment(date).format(settings.dateFormat);
+            event.end = moment(date).format(settings.dateFormat);
+            event.id = 0;
+            event.allDay = true;
+            event.title = title;
+            event.resourceId = resourceObj.id;
+            event.editable = true;
+            var data = calEvent(event);
+            var title;
+            $.post('/scheduler/eventEdit', data, function (result) {
+                $dialog.scheduler.dialog({
+                    width: 300,
+                    title: jsEvent.title,
+                    buttons: {
+                        "Save": function () {
+                            $(".ui-dform-text").each(function () {
+                                data[$(this).attr('name')] = $(this).val();
+                            })
+                            $.post('/scheduler/event', data, function (result) {
+                                $dialog.scheduler.dialog("close");
+                                refetchCalendar();
+                            })
+                        },
+                        "Delete": function () {
+                            $(this).dialog("close");
+                        },
+                        Cancel: function () {
+                            $(this).dialog("close");
+                        }
+                    }
+                });
+                $dialog.scheduler.dialog("close");
+                $dialog.scheduler.dialog("open");
+                $dialog.scheduler.html('<form class="form" id="myform"></form>');
+                $("#myform").dform(result);
+            })
+        }
+
+
+        function eventClickSeason(event, jsEvent, ui, view) {
+            var data = calEvent(event);
+            $.post('/scheduler/eventEdit', data, function (result) {
+                $dialog.scheduler.dialog({
+                    width: 300,
+                    title: event.title,
+                    buttons: {
+                        "Save": function () {
+                            $(".ui-dform-text").each(function () {
+                                data[$(this).attr('name')] = $(this).val();
+                            })
+                            $.post('/scheduler/event', data, function (result) {
+                                $dialog.scheduler.dialog("close");
+                                refetchCalendar();
+                            })
+                        },
+                        "Delete": function () {
+                            $(this).dialog("close");
+                        },
+                        Cancel: function () {
+                            $(this).dialog("close");
+                        }
+                    }
+                });
+                $dialog.scheduler.dialog("close");
+                $dialog.scheduler.dialog("open");
+                $dialog.scheduler.html('<form class="form" id="myform"></form>');
+                $("#myform").dform(result);
+            })
+        }
+
+        function dayClickSeason(date, jsEvent, view, resourceObj) {
+            var event = {};
+            event.start = moment(date).format(settings.dateFormat);
+            event.end = moment(date).format(settings.dateFormat);
+            event.id = 0;
+            event.allDay = true;
+            event.title = title;
+            event.resourceId = resourceObj.id;
+            event.editable = true;
+            var data = calEvent(event);
+            var title;
+            $.post('/season/eventEdit', data, function (result) {
+                $dialog.scheduler.dialog({
+                    width: 300,
+                    title: jsEvent.title,
+                    buttons: {
+                        "Save": function () {
+                            $(".ui-dform-text").each(function () {
+                                data[$(this).attr('name')] = $(this).val();
+                            })
+                            $.post('/season/event', data, function (result) {
+                                $dialog.scheduler.dialog("close");
+                                refetchCalendar();
+                            })
+                        },
+                        "Delete": function () {
+                            $(this).dialog("close");
+                        },
+                        Cancel: function () {
+                            $(this).dialog("close");
+                        }
+                    }
+                });
+                $dialog.scheduler.dialog("close");
+                $dialog.scheduler.dialog("open");
+                $dialog.scheduler.html('<form class="form" id="myform"></form>');
+                $("#myform").dform(result);
+            })
         }
 
         function postEvent(event, action) {

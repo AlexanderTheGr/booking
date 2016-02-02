@@ -9,6 +9,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use BookingBundle\Entity\RoomCategorySeason as RoomCategorySeason;
 use BookingBundle\Entity\RoomSeason as RoomSeason;
+use BookingBundle\Entity\RoomCategory as RoomCategory;
+use BookingBundle\Entity\RoomCategory as Room;
 use AppBundle\Controller\Main;
 
 class SeasonController extends Main {
@@ -211,12 +213,19 @@ class SeasonController extends Main {
         //$setSt = "set".$sr;
 
         $res = explode("-", $request->request->get("id"));
-        $id = @$res[1];
+        $id = @(int) $res[1];
         $entity = $this->getDoctrine()
                 ->getRepository($this->repository)
                 ->find($id);
+
         if ($id == 0 AND @ $entity->id == 0) {
-            $entity = new RoomCategory;
+            //$entity = new RoomCategory;
+            $en = $sr . 'Season';
+            if ($en == 'RoomSeason')
+                $entity = new RoomSeason;
+            if ($en == 'RoomCategorySeason')
+                $entity = new RoomCategorySeason;
+
             $this->newentity[$this->repository] = $entity;
         }
         $fields["description"] = array("label" => "Description");

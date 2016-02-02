@@ -80,13 +80,13 @@ var dt_tables = [];
                     
                     var html = "<div id='"+r.calendar.id+"'></div>";
                     
-
                     jQuery("#" + r.index).html(html_entity_decode(html))
                     jQuery('#'+r.calendar.id).scheduler({
                         resources:r.calendar.resources,
                         events:r.calendar.events,
                         event:r.calendar.event,
                         eventClick:r.calendar.eventClick,
+                        dayClick:r.calendar.dayClick,
                     });
                 }
                 
